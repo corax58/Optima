@@ -41,12 +41,10 @@ app.all("*",(req,res)=>{
 app.listen(PORT,()=>{
     console.log(`Listening on PORT ${PORT}`)
 })
-
 }
 
 main().then(async ()=>{
-    await prisma.$connect()
-}).catch(async(e)=>{
+    await prisma.$connect()}).catch(async(e)=>{
     console.log(e)
     await prisma.$disconnect()
     process.exit(1);
