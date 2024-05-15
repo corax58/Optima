@@ -9,6 +9,7 @@ const HomePage = () => {
     Logout();
     navigator("/login");
   };
+
   return (
     <div>
       <button

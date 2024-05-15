@@ -1,11 +1,11 @@
 const prisma = require("../prisma/prismaClient");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
-const createToken =(id)=>{
-    return jwt.sign({id},process.env.SECRET,{expiresIn:'1w'})
-}
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.SECRET, { expiresIn: "1w" });
+};
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -34,11 +34,12 @@ const loginUser = async (req, res) => {
       throw Error("Incorrect email or password");
     }
 
-const token = createToken(user.id);
+    const token = createToken(user.userId);
 
     res.status(200).json({
-        email:user.email,
-        token
+      email: user.email,
+      token,
+      userId: user.userId,
     });
   } catch (error) {
     res.status(404).json({ error: error.message });
@@ -75,12 +76,14 @@ const signupUser = async (req, res) => {
       },
     });
 
-    const token = createToken(user.id)
+    const token = createToken(user.userId);
     res.status(200).json({
-        email:user.email,
-        token
+      email: user.email,
+      token,
+      userId: user.userId,
     });
   } catch (error) {
+    console.log(error);
     res.status(404).json({ error: error.message });
   }
 };

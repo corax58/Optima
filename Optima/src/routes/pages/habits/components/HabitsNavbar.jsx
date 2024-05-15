@@ -1,20 +1,20 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { TbReportAnalytics } from "react-icons/tb";
 
 const HabitsNavbar = () => {
   return (
-    <div className=" flex  justify-between items-center pl-9 lg:pl-4 pr-5  w-full flex-row  h-16 shadow-md">
+    <div className=" flex  justify-between items-center pl-9 lg:pl-4 pr-5  w-full flex-row  h-16 shadow">
       <div className="flex">Habits</div>
       <div className="flex space-x-3">
         <button
-          className=""
+          className="btn "
           onClick={() => document.getElementById("my_modal_3").showModal()}
         >
           Add habit
         </button>
-        <div>
+        <div className=" items-center flex">
           <TbReportAnalytics size={25} className=" md:hidden" />
-          <span className="hidden md:block">view report </span>
+          <span className="hidden md:block hover:underline">View report </span>
         </div>
       </div>
 
@@ -26,11 +26,84 @@ const HabitsNavbar = () => {
               ✕
             </button>
           </form>
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">Press ESC key or click on ✕ button to close</p>
+          <AddHabit />
         </div>
       </dialog>
     </div>
+  );
+};
+
+const AddHabit = () => {
+  const [quantifiable, setQuatifieble] = useState(true);
+  const [remindMe, setRemindMe] = useState(true);
+  const checkref = useRef();
+
+  const toggleUnit = () => {
+    setQuatifieble(!quantifiable);
+    console.log(checkref.current.checked);
+  };
+  const toggleRemindMe = () => {
+    setRemindMe(!remindMe);
+  };
+
+  return (
+    <form className="flex flex-col space-y-3 font-medium">
+      <label htmlFor="name">Habit name</label>
+      <input
+        type="text"
+        name=""
+        id="name"
+        className="input input-bordered w-full max-w-xs"
+      />
+      <label htmlFor="description">Habit description</label>
+      <textarea
+        name=""
+        id="description"
+        className="textarea textarea-bordered"
+      ></textarea>
+      <div className="space-x-2 flex items-center">
+        <input
+          ref={checkref}
+          type="checkbox"
+          name=""
+          className="checkbox"
+          id="quantifiable"
+          onChange={toggleUnit}
+        />
+        <label htmlFor="quantifiable">Quantifiable</label>
+      </div>
+      <div className="flex space-x-2 items-center">
+        <label htmlFor="unit">Unit</label>
+        <input
+          type="text"
+          id="unit"
+          className="input input-bordered w-full max-w-xs"
+          disabled={quantifiable}
+        />
+      </div>
+      <div className="space-x-2 flex items-center">
+        <input
+          type="checkbox"
+          name=""
+          className="checkbox"
+          id="remindMe"
+          onChange={toggleRemindMe}
+        />
+        <label htmlFor="remindMe">RemindMe</label>
+      </div>
+      <div className="flex space-x-2 items-center">
+        <label htmlFor="unit">Remind time</label>
+        <input
+          disabled={remindMe}
+          type="time"
+          id="unit"
+          className="input input-bordered w-full max-w-xs"
+        />
+      </div>
+      <button type="submit" className="btn font-bold">
+        Submit
+      </button>
+    </form>
   );
 };
 

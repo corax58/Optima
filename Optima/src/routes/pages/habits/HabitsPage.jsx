@@ -1,12 +1,14 @@
-import React from 'react'
-import HabitsNavbar from './components/HabitsNavbar'
+import React from "react";
+import HabitsNavbar from "./components/HabitsNavbar";
+import HabitsList from "./components/HabitList";
 
 const HabitsPage = () => {
   return (
     <div>
-     <HabitsNavbar/>
+      <HabitsNavbar />
+      <HabitsList />
     </div>
-  )
-}
+  );
+};
 
-export default HabitsPage
+export default HabitsPage;

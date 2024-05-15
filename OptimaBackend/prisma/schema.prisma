@@ -14,7 +14,29 @@ datasource db {
 }
 
 model User {
-  id             Int    @id @default(autoincrement())
-  email          String @unique
+  userId         String  @id @default(cuid())
+  email          String  @unique
   hashedPassword String
+  Habits         Habit[]
+}
+
+model Habit {
+  habitId      String       @id @default(cuid())
+  habitName    String
+  description  String?
+  unit         String?
+  HabitEntry   HabitEntry[]
+  quantifiable Boolean
+  remindMe     Boolean
+  remindTime   DateTime?
+  user         User         @relation(fields: [userId], references: [userId])
+  userId       String
+}
+
+model HabitEntry {
+  entryId      Int      @id @default(autoincrement())
+  quantity     Float?
+  habit        Habit    @relation(fields: [habitHabitId], references: [habitId])
+  habitHabitId String
+  createdAt    DateTime @default(now())
 }
