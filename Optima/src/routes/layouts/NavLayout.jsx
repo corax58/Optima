@@ -7,16 +7,10 @@ const NavLayout = () => {
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content  ">
-          <label
-            htmlFor="my-drawer-2"
-            className=" drawer-button lg:hidden absolute mt-4 ml-1"
-          >
-            <IoMenuOutline size={28} />
-          </label>
           <Outlet />
         </div>
 
-        <div className="drawer-side">
+        <div className="drawer-side m">
           <label
             htmlFor="my-drawer-2"
             aria-label="close sidebar"

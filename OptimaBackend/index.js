@@ -11,6 +11,7 @@ const PORT = process.env.PORT;
 const userRouter = require("./routes/user");
 const habitRouter = require("./routes/habits");
 const habitEntryRouter = require("./routes/habitEntry");
+const projectRouter = require("./routes/projects");
 
 async function main() {
   //middlewares
@@ -21,6 +22,7 @@ async function main() {
   app.use("/api/user", userRouter);
   app.use("/api/habit", habitRouter);
   app.use("/api/habitEntry", habitEntryRouter);
+  app.use("/api/project", projectRouter);
 
   //test routes
   app.get("/api/table", async (req, res) => {

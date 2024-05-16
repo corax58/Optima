@@ -43,17 +43,26 @@ const getHabit = async (req, res) => {
 // create a new habit
 const createHabit = async (req, res) => {
   const { userId } = req.params;
-  const { habitName, description, unit, remindMe, remindTime } = req.body;
+  const {
+    habitName,
+    habitDescription,
+    unit,
+    remindMe,
+    remindTime,
+    quantifiable,
+  } = req.body;
 
-  const time = new Date("2024-11-11T09:00:00Z");
+  const time = new Date(`2024-11-11T${remindTime}:00Z`);
 
   try {
     const habit = await prisma.habit.create({
       data: {
         habitName,
-        description,
+
+        description: habitDescription,
         unit,
         remindMe,
+        quantifiable,
         userId: userId,
         remindTime: time,
       },
@@ -133,6 +142,11 @@ const deleteHabit = async (req, res) => {
       throw Error("habit not found");
     }
 
+    await prisma.habitEntry.deleteMany({
+      where: {
+        habitHabitId: habitId,
+      },
+    });
     const habit = await prisma.habit.delete({
       where: {
         habitId: habitId,
@@ -164,7 +178,7 @@ const addHabitEntry = async (req, res) => {
 
     const habitEntry = await prisma.habitEntry.create({
       data: {
-        quantity,
+        quantity: parseFloat(quantity),
         habitHabitId: habitId,
       },
     });
@@ -197,7 +211,7 @@ const getAllHabitEntry = async (req, res) => {
 
     res.status(200).json(habitEntries);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
     res.status(404).json({ error: err.message });
   }
 };
