@@ -78,12 +78,12 @@ const createHabit = async (req, res) => {
 // update a habit
 const updateHabit = async (req, res) => {
   const { habitId } = req.params;
-  const { habitName, description, unit, remindMe } = req.body;
+  let { habitName, description, unit, remindMe } = req.body;
 
   try {
-    if (!habitId) {
-      throw Error("no user");
-    }
+    // if (!habitId) {
+    //   throw Error("no user");
+    // }
 
     const habitExists = await prisma.habit.findFirst({
       where: {

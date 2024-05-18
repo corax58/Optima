@@ -4,212 +4,224 @@ const prisma = require("../prisma/prismaClient");
 const getAllProjects = async (req, res) => {
   const { userId } = req.params;
 
-  //   try {
-  //     habits = await prisma.habit.findMany({
-  //       where: {
-  //         userId: userId,
-  //       },
-  //     });
+  try {
+    projects = await prisma.project.findMany({
+      where: {
+        adminId: userId,
+      },
+    });
 
-  //     res.status(200).json(habits);
-  //   } catch (e) {
-  //     console.log(e);
-  //     res.status(404).json(e);
-  //   }
+    res.status(200).json(projects);
+  } catch (e) {
+    console.log(e);
+    res.status(404).json(e);
+  }
 };
 
 //get a Project
 const getProject = async (req, res) => {
   const { userId, projectId } = req.params;
-  //   try {
-  //     const habit = await prisma.habit.findFirst({
-  //       where: {
-  //         habitId: habitId,
-  //         userId: userId,
-  //       },
-  //     });
+  try {
+    const project = await prisma.project.findFirst({
+      where: {
+        projectId: projectId,
+        adminId: userId,
+      },
+    });
 
-  //     if (!habit) {
-  //       console.log("hey there");
-  //       throw Error("habit not found");
-  //     }
-  //     res.status(200).json(habit);
-  //   } catch (e) {
-  //     console.log(e);
-  //     res.status(404).json({ error: e.message });
-  //   }
+    if (!project) {
+      throw Error("Project not found");
+    }
+    res.status(200).json(project);
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: e.message });
+  }
 };
 
 // create a new project
 const createProject = async (req, res) => {
   const { userId } = req.params;
-  //   const {
-  //     habitName,
-  //     habitDescription,
-  //     unit,
-  //     remindMe,
-  //     remindTime,
-  //     quantifiable,
-  //   } = req.body;
+  let { projectName, projectDescription, hasDeadLine, deadLine, startDate } =
+    req.body;
 
   //   const time = new Date(`2024-11-11T${remindTime}:00Z`);
+  if (!startDate) {
+    startDate = new Date();
+  }
 
-  //   try {
-  //     const habit = await prisma.habit.create({
-  //       data: {
-  //         habitName,
+  try {
+    const project = await prisma.project.create({
+      data: {
+        projectName,
+        description: projectDescription,
+        hasDeadLine,
+        adminId: userId,
+        deadLine,
+        startDate,
+      },
+    });
 
-  //         description: habitDescription,
-  //         unit,
-  //         remindMe,
-  //         quantifiable,
-  //         userId: userId,
-  //         remindTime: time,
-  //       },
-  //     });
-
-  //     res.status(200).json(habit);
-  //   } catch (err) {
-  //     console.log(err);
-  //     res.status(404).json({ error: "error" });
-  //   }
+    res.status(200).json(project);
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ error: "error" });
+  }
 };
 
 // update a project
 const updateProject = async (req, res) => {
   const { projectId } = req.params;
   //   const { habitName, description, unit, remindMe } = req.body;
+  const { projectName, projectDescription, deadLine, startDate } = req.body;
 
-  //   try {
-  //     if (!habitId) {
-  //       throw Error("no user");
-  //     }
+  try {
+    const projectExists = await prisma.project.findFirst({
+      where: {
+        projectId: projectId,
+      },
+    });
 
-  //     const habitExists = await prisma.habit.findFirst({
-  //       where: {
-  //         habitId: habitId,
-  //       },
-  //     });
+    if (!projectExists) {
+      throw Error("No projects found");
+    }
 
-  //     if (!habitExists) {
-  //       throw Error("No habit with that id");
-  //     }
+    if (startDate < deadLine) {
+      throw Error("Dead line should be after the start date");
+    }
+    const project = prisma.project.update({
+      where: {
+        projectId: projectId,
+      },
+      data: {
+        projectName,
+        description: projectDescription,
+        deadLine,
+        startDate,
+      },
+    });
 
-  //     if (!habitName) {
-  //       habitName = habitExists.habitName;
-  //     }
-  //     if (!description) {
-  //       habitName = habitExists.description;
-  //     }
-  //     if (!unit) {
-  //       habitName = habitExists.unit;
-  //     }
-  //     if (!remindMe) {
-  //       habitName = habitExists.remindMe;
-  //     }
-
-  //     const habit = await prisma.habit.update({
-  //       where: {
-  //         habitId: habitId,
-  //       },
-  //       data: {
-  //         habitName,
-  //         description,
-  //         unit,
-  //         remindMe,
-  //       },
-  //     });
-
-  //     res.status(200).json(habit);
-  //   } catch (err) {
-  //     console.log(err);
-  //     res.status(404).json({ error: err.message });
-  //   }
+    res.status(200).json(project);
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ error: err.message });
+  }
 };
 
 // delete a Project
 const deleteProject = async (req, res) => {
   const { projectId } = req.params;
 
-  //   try {
-  //     const habitExist = await prisma.habit.findFirst({
-  //       where: {
-  //         habitId: habitId,
-  //       },
-  //     });
+  try {
+    const projectExist = await prisma.project.findFirst({
+      where: {
+        projectId,
+      },
+    });
 
-  //     if (!habitExist) {
-  //       throw Error("habit not found");
-  //     }
+    if (!projectExist) {
+      throw Error("Project not found");
+    }
 
-  //     const habit = await prisma.habit.delete({
-  //       where: {
-  //         habitId: habitId,
-  //       },
-  //     });
+    const project = await prisma.project.delete({
+      where: {
+        projectId,
+      },
+    });
 
-  //     res.status(200).json(habit);
-  //   } catch (e) {
-  //     console.log(e);
+    res.status(200).json(project);
+  } catch (e) {
+    console.log(e);
 
-  //     res.status(404).json({ error: e.message });
-  //   }
+    res.status(404).json({ error: e.message });
+  }
 };
 
-// // add a habit entry
-// const addHabitEntry = async (req, res) => {
-//   const { quantity } = req.body;
-//   const { habitId } = req.params;
-//   try {
-//     const habitExists = await prisma.habit.findFirst({
-//       where: {
-//         habitId: habitId,
-//       },
-//     });
+// get project members
 
-//     if (!habitExists) {
-//       throw Error("habit does not exist");
-//     }
+const getMembers = async (req, res) => {
+  const { projectId } = req.params;
 
-//     const habitEntry = await prisma.habitEntry.create({
-//       data: {
-//         quantity,
-//         habitHabitId: habitId,
-//       },
-//     });
+  try {
+    const member = await prisma.projectMember.findMany({
+      where: {
+        projectProjectId: projectId,
+      },
+    });
+    res.status(200).json(member);
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: e.message });
+  }
+};
 
-//     res.status(200).json(habitEntry);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(404).json({ error: err.message });
-//   }
-// };
+// add a user to a project
 
-// // get all habit entry of a habit
-// const getAllHabitEntry = async (req, res) => {
-//   const { habitId } = req.params;
-//   try {
-//     const habitExists = await prisma.habit.findFirst({
-//       where: {
-//         habitId: habitId,
-//       },
-//     });
+const addUser = async (req, res) => {
+  const { projectId } = req.params;
+  const { userId } = req.body;
 
-//     if (!habitExists) {
-//       throw Error("habit does not exist");
-//     }
-//     const habitEntries = await prisma.habitEntry.findMany({
-//       where: {
-//         habitHabitId: habitId,
-//       },
-//     });
+  try {
+    const projectExist = await prisma.project.findFirst({
+      where: {
+        projectId: projectId,
+      },
+    });
+    if (!projectExist) {
+      throw Error("Project doesnt exist");
+    }
+    const alreadyMember = await prisma.projectMember.findFirst({
+      where: {
+        userUserId: userId,
+        projectProjectId: projectId,
+      },
+    });
 
-//     res.status(200).json(habitEntries);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(404).json({ error: err.message });
-//   }
-// };
+    if (alreadyMember) {
+      throw Error("this user is already a member of thsi  project");
+    }
+    const member = await prisma.projectMember.create({
+      data: {
+        projectProjectId: projectId,
+        userUserId: userId,
+      },
+    });
+    res.status(200).json(member);
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: e.message });
+  }
+};
+
+// remove user from a project
+
+const removeUser = async (req, res) => {
+  const { projectId } = req.params;
+  const { userId } = req.body;
+
+  try {
+    const memberExist = await prisma.projectMember.findFirst({
+      where: {
+        projectProjectId: projectId,
+        userUserId: userId,
+      },
+    });
+    if (!memberExist) {
+      throw Error("Member doesnt exist");
+    }
+    const member = await prisma.projectMember.delete({
+      where: {
+        projectMemberId: memberExist.projectMemberId,
+        projectProjectId: projectId,
+        userUserId: userId,
+      },
+    });
+    res.status(200).json(member);
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: e.message });
+  }
+};
 
 module.exports = {
   getAllProjects,
@@ -217,6 +229,7 @@ module.exports = {
   updateProject,
   getProject,
   deleteProject,
-  //   addHabitEntry,
-  //   getAllHabitEntry,
+  addUser,
+  removeUser,
+  getMembers,
 };

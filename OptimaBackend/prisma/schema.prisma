@@ -14,12 +14,13 @@ datasource db {
 }
 
 model User {
-  userId         String           @id @default(cuid())
-  email          String           @unique
+  userId         String          @id @default(cuid())
+  email          String          @unique
   hashedPassword String
   Habits         Habit[]
   Projects       Project[]
-  ProjectMembers ProjectMembers[]
+  // ProjectMember  ProjectMember[]
+  ProjectMember  ProjectMember[]
 }
 
 model Habit {
@@ -44,26 +45,16 @@ model HabitEntry {
 }
 
 model Project {
-  projectId   String    @id @default(cuid())
-  projectName String
-  description String?
-  hasDeadLine Boolean
-  deadLine    DateTime?
-  admin       User      @relation(fields: [adminId], references: [userId])
-  adminId     String
-  SubTask     SubTask[]
-
-  ProjectMembers ProjectMembers[]
-}
-
-model ProjectMembers {
-  project          Project @relation(fields: [projectProjectId], references: [projectId])
-  projectProjectId String
-
-  member     User   @relation(fields: [userUserId], references: [userId])
-  userUserId String
-
-  @@id([projectProjectId, userUserId])
+  projectId     String          @id @default(cuid())
+  projectName   String
+  description   String?
+  startDate     DateTime
+  hasDeadLine   Boolean
+  deadLine      DateTime?
+  admin         User            @relation(fields: [adminId], references: [userId])
+  adminId       String
+  SubTask       SubTask[]
+  ProjectMember ProjectMember[]
 }
 
 model SubTask {
@@ -71,4 +62,13 @@ model SubTask {
   subTaskName      String
   project          Project @relation(fields: [projectProjectId], references: [projectId])
   projectProjectId String
+}
+
+model ProjectMember {
+  projectMemberId  Int     @id @default(autoincrement())
+  project          Project @relation(fields: [projectProjectId], references: [projectId])
+  projectProjectId String
+
+  member     User   @relation(fields: [userUserId], references: [userId])
+  userUserId String
 }

@@ -7,9 +7,10 @@ const {
   createProject,
   getProject,
   deleteProject,
+  addUser,
+  removeUser,
+  getMembers,
 } = require("../controllers/projectsController");
-
-// const { getAllProjects } = require("../controllers/projectsController");
 
 //projects
 
@@ -22,5 +23,13 @@ router.post("/:userId", createProject);
 router.patch("/:projectId", updateProject);
 
 router.delete("/:projectId", deleteProject);
+
+//members
+
+router.post("/member/:projectId", addUser);
+
+router.delete("/member/:projectId", removeUser);
+
+router.get("/member/:projectId", getMembers);
 
 module.exports = router;

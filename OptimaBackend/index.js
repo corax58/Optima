@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const prisma = require("./prisma/prismaClient");
+
 //express app
 const app = express();
 const PORT = process.env.PORT;
@@ -12,6 +13,8 @@ const userRouter = require("./routes/user");
 const habitRouter = require("./routes/habits");
 const habitEntryRouter = require("./routes/habitEntry");
 const projectRouter = require("./routes/projects");
+const subtasRouter = require("./routes/subtask");
+const memberRouter = require("./routes/member");
 
 async function main() {
   //middlewares
@@ -23,6 +26,8 @@ async function main() {
   app.use("/api/habit", habitRouter);
   app.use("/api/habitEntry", habitEntryRouter);
   app.use("/api/project", projectRouter);
+  app.use("/api/subtask", subtasRouter);
+  app.use("/api/member", memberRouter);
 
   //test routes
   app.get("/api/table", async (req, res) => {
