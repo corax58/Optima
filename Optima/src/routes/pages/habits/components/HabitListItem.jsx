@@ -22,8 +22,14 @@ const HabitListItem = ({ habit }) => {
   };
 
   return (
-    <div className="flex w-full p-2 justify-between border-b border-neutral-400  items-center ">
-      <Link to={`/habits/${habit.habitId}`}> {habit.habitName} </Link>
+    <div className="flex w-full p-2 justify-between border-b border-primary-400  items-center ">
+      <Link
+        to={`/habits/${habit.habitId}`}
+        className="hover:text-lg hover:font-semibold transition-all hover:underline  w-1/2 "
+      >
+        {" "}
+        {habit.habitName}{" "}
+      </Link>
       <div>
         <button
           className=" btn   h-10"

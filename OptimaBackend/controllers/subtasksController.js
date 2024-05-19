@@ -113,8 +113,72 @@ const updateSubtask = async (req, res) => {
   }
 };
 
-//add assign a user to a subtask
+// assign a user to a subtask
+const assignUser = async (req, res) => {
+  const { projectMemberId, subtaskId } = req.body;
+  try {
+    const memberId = parseInt(projectMemberId);
+    const subtask = parseInt(subtaskId);
 
+    const projectmemberExist = await prisma.projectMember.findFirst({
+      where: {
+        projectMemberId: memberId,
+      },
+    });
+    if (!projectmemberExist) {
+      throw Error("this user inst member of the project");
+    }
+    const subtaskExist = await prisma.subTask.findFirst({
+      where: {
+        subTaskId: subtask,
+      },
+    });
+    if (!subtaskExist) {
+      throw Error("the subtask doesnt exist");
+    }
+
+    const assing = await prisma.assignedSubtask.create({
+      data: {
+        projectMemberProjectMemberId: memberId,
+        subTaskSubTaskId: subtask,
+      },
+    });
+
+    res.status(200).json(assing);
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: e.message });
+  }
+};
+
+const removeFromSubtask = async (req, res) => {
+  const { projectMemberId, subtaskId } = req.body();
+  try {
+    const memberId = parseInt(projectMemberId);
+    const subtask = parseInt(subtaskId);
+    const assignedUser = await prisma.assignedSubtask.findFirst({
+      where: {
+        projectMemberProjectMemberId: memberId,
+        subTaskSubTaskId: subtask,
+      },
+    });
+    if (!assignedUser) {
+      throw Error("the user isnt assinged to this subtask");
+    }
+
+    const assing = await prisma.assignedSubtask.delete({
+      where: {
+        projectMemberProjectMemberId: memberId,
+        subTaskSubTaskId: subtask,
+      },
+    });
+
+    res.status(200).json(assing);
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: e.message });
+  }
+};
 //
 
 module.exports = {
@@ -122,4 +186,6 @@ module.exports = {
   createSubtask,
   deleteSubtask,
   updateSubtask,
+  assignUser,
+  removeFromSubtask,
 };

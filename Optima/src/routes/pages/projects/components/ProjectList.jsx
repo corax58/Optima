@@ -1,17 +1,16 @@
 import React from "react";
-import HabitListItem from "./habitListItem";
-import useFetchHabit from "../../../../hooks/useFetchHabit";
+import useFetchProjects from "../../../../hooks/useFetchProjects";
+import ProjectListItem from "./ProjectListItem";
 
-const HabitsList = () => {
-  const { data, error, isLoading } = useFetchHabit();
-
+const ProjectList = () => {
+  const { data, error, isLoading } = useFetchProjects();
   if (isLoading)
     return (
       <div className="flex w-full justify-center mt-10">
         <span className="loading loading-dots loading-lg"></span>{" "}
       </div>
     );
-  if (error)
+  if (error) {
     return (
       <div role="alert" className="alert alert-error mt-10 m-5">
         <svg
@@ -27,16 +26,17 @@ const HabitsList = () => {
             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <span>Couldn't load habits</span>
+        <span>Couldn't load Project</span>
       </div>
     );
+  }
 
   return (
-    <div className="mx-3">
+    <div className="">
       <ul>
-        {data.map((habit) => (
-          <li key={habit.habitId}>
-            <HabitListItem habit={habit}></HabitListItem>
+        {data.map((project) => (
+          <li key={project.projectId}>
+            <ProjectListItem project={project}></ProjectListItem>
           </li>
         ))}
       </ul>
@@ -44,4 +44,4 @@ const HabitsList = () => {
   );
 };
 
-export default HabitsList;
+export default ProjectList;

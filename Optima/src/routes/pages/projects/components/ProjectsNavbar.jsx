@@ -1,6 +1,7 @@
 import React from "react";
 import { IoMenuOutline } from "react-icons/io5";
 import { MdOutlineViewTimeline } from "react-icons/md";
+import AddProject from "./AddProject";
 
 const ProjectsNavbar = () => {
   return (
@@ -14,13 +15,13 @@ const ProjectsNavbar = () => {
         </div>
         <div className="flex space-x-3">
           <button
-            className=""
+            className="btn"
             onClick={() => document.getElementById("my_modal_4").showModal()}
           >
             Add Project
           </button>
-          <div>
-            <div className="md:hidden">
+          <div className="btn">
+            <div className="md:hidden w-fit flex items-center">
               <MdOutlineViewTimeline size={25} />
             </div>
 
@@ -36,8 +37,7 @@ const ProjectsNavbar = () => {
                 ✕
               </button>
             </form>
-            <h3 className="font-bold text-lg">Hello!</h3>
-            <p className="py-4">Press ESC key or click on ✕ button to close</p>
+            <AddProject />
           </div>
         </dialog>
       </div>

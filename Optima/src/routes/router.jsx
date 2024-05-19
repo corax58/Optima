@@ -7,6 +7,7 @@ import NavLayout from "./layouts/NavLayout";
 import ProjectsPage from "./pages/projects/ProjectsPage";
 import HabitsPage from "./pages/habits/HabitsPage";
 import HabitsDetailsPage from "./pages/habits/HabitsDetailsPage";
+import ProjectDetailPage from "./pages/projects/ProjectDetailPage";
 
 const router = createBrowserRouter([
   ,
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/projects",
         element: <ProjectsPage />,
+      },
+      {
+        path: "/projects/:projectId",
+        element: <ProjectDetailPage />,
       },
       {
         path: "/habits",

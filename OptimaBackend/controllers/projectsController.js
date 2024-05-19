@@ -27,6 +27,23 @@ const getProject = async (req, res) => {
         projectId: projectId,
         adminId: userId,
       },
+      include: {
+        ProjectMember: {
+          include: {
+            member: true,
+          },
+        },
+        admin: true,
+        SubTask: {
+          include: {
+            AssignedSubtask: {
+              include: {
+                member: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!project) {
@@ -44,9 +61,12 @@ const createProject = async (req, res) => {
   const { userId } = req.params;
   let { projectName, projectDescription, hasDeadLine, deadLine, startDate } =
     req.body;
+  console.log("creating project");
 
-  //   const time = new Date(`2024-11-11T${remindTime}:00Z`);
-  if (!startDate) {
+  if (deadLine == "") {
+    deadLine = null;
+  }
+  if (startDate == "") {
     startDate = new Date();
   }
 
@@ -61,7 +81,12 @@ const createProject = async (req, res) => {
         startDate,
       },
     });
-
+    const added = await prisma.projectMember.create({
+      data: {
+        userUserId: userId,
+        projectProjectId: project.projectId,
+      },
+    });
     res.status(200).json(project);
   } catch (err) {
     console.log(err);
@@ -178,7 +203,7 @@ const addUser = async (req, res) => {
     });
 
     if (alreadyMember) {
-      throw Error("this user is already a member of thsi  project");
+      throw Error("this user is already a member of this  project");
     }
     const member = await prisma.projectMember.create({
       data: {
