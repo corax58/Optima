@@ -1,5 +1,7 @@
 const prisma = require("../prisma/prismaClient");
 
+const { sendNotification } = require("./subscribeController");
+
 // get projects
 const getReport = async (req, res) => {
   const { userId } = req.params;
@@ -276,7 +278,11 @@ const addUser = async (req, res) => {
       },
     });
 
-    console.log(invite);
+    await sendNotification({
+      userId: user.userId,
+      message: "You have new invite to a project",
+    });
+
     res.status(200).json({ message: "Invitation sent" });
   } catch (e) {
     console.log(e);

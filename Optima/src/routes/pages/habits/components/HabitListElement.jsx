@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaPenToSquare } from "react-icons/fa6";
 import useCreateHabitEntry from "../../../../hooks/useCreatHabitEntry";
+import { PiCirclesFour } from "react-icons/pi";
 const HabitListElement = ({ habit }) => {
   const [amount, setAmount] = useState("");
 
@@ -27,8 +28,10 @@ const HabitListElement = ({ habit }) => {
         to={`/habits/${habit.habitId}`}
         className="hover:text-lg hover:font-semibold transition-all hover:underline  w-1/2 "
       >
-        {" "}
-        {habit.habitName}{" "}
+        <div className="flex items-center space-x-2 flex-row">
+          <PiCirclesFour />
+          <span>{habit.habitName}</span>
+        </div>
       </Link>
       <div>
         <button

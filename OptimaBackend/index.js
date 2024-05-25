@@ -17,13 +17,16 @@ const subtasRouter = require("./routes/subtask");
 const memberRouter = require("./routes/member");
 const assignRouter = require("./routes/assign");
 const invitesRouter = require("./routes/invites");
+const subscribeRouter = require("./routes/subscribe");
 
 async function main() {
   //middlewares
   app.use(cors());
   app.use(express.json());
+  // notification
 
   //registering api routes
+  app.use("/api/subscribe", subscribeRouter);
   app.use("/api/user", userRouter);
   app.use("/api/habit", habitRouter);
   app.use("/api/habitEntry", habitEntryRouter);

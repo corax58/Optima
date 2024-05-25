@@ -14,14 +14,15 @@ datasource db {
 }
 
 model User {
-  userId          String            @id @default(cuid())
-  email           String            @unique
-  hashedPassword  String
-  Habits          Habit[]
-  Projects        Project[]
+  userId                  String                    @id @default(cuid())
+  email                   String                    @unique
+  hashedPassword          String
+  Habits                  Habit[]
+  Projects                Project[]
   // ProjectMember  ProjectMember[]
-  ProjectMember   ProjectMember[]
-  ProjecctInvites ProjecctInvites[]
+  ProjectMember           ProjectMember[]
+  ProjecctInvites         ProjecctInvites[]
+  NotificationSubcription NotificationSubcription[]
 }
 
 model Habit {
@@ -93,4 +94,11 @@ model ProjecctInvites {
   user             User    @relation(fields: [userUserId], references: [userId])
   userUserId       String
   state            String
+}
+
+model NotificationSubcription {
+  id           Int    @id @default(autoincrement())
+  subscription Json
+  user         User   @relation(fields: [userUserId], references: [userId])
+  userUserId   String
 }
