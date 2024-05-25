@@ -10,9 +10,10 @@ const ProjectList = () => {
         <span className="loading loading-dots loading-lg"></span>{" "}
       </div>
     );
+
   if (error) {
     return (
-      <div role="alert" className="alert alert-error mt-10 m-5">
+      <div role="alert" className="alert alert-error mt-10 ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="stroke-current shrink-0 h-6 w-6"
@@ -30,18 +31,22 @@ const ProjectList = () => {
       </div>
     );
   }
-
-  return (
-    <div className="">
-      <ul>
-        {data.map((project) => (
-          <li key={project.projectId}>
-            <ProjectListItem project={project}></ProjectListItem>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  if (data) {
+    console.log(data);
+  }
+  if (data) {
+    return (
+      <div className="">
+        <ul>
+          {data.myProjects.map((project) => (
+            <li key={project.projectId}>
+              <ProjectListItem project={project}></ProjectListItem>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 };
 
 export default ProjectList;

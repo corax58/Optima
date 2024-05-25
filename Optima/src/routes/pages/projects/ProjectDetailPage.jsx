@@ -4,6 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import useFetchProjectDetails from "../../../hooks/useFetchProjectDetails";
 import useCreateSubtask from "../../../hooks/useCreateSubtask";
 import useAssingSubtask from "../../../hooks/useAssingSubtask";
+import Subtasks from "./components/Subtasks";
+import ProjectDetails from "./components/ProjectDetails";
+import { useQueryClient } from "@tanstack/react-query";
+import useAddMember from "../../../hooks/useAddMember";
+import ErrorElement from "../../../components/ErrorElement";
+import { MdDelete } from "react-icons/md";
+import { RiDeleteBin2Line } from "react-icons/ri";
+import DeleteProject from "./components/DeleteProject";
 
 const ProjectDetailPage = () => {
   const { projectId } = useParams();
@@ -13,10 +21,19 @@ const ProjectDetailPage = () => {
   const { data, isLoading, error } = useFetchProjectDetails({
     projectId,
   });
-  const assign = useAssingSubtask({ projectId });
-  const onDelete = () => {
-    navigator("/projects");
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  let isDisabled = false;
+
+  const onAdd = () => {
+    setUserEmail("");
   };
+  const addMember = useAddMember({ onAdd, projectId });
+  const handleAddMember = () => {
+    addMember.mutate({ userEmail });
+  };
+
   const onCreate = () => {
     setSubtaskName("");
   };
@@ -29,11 +46,14 @@ const ProjectDetailPage = () => {
 
     createSubtask.mutate({ subtaskName });
   };
-  const handleAssign = ({ e, id }) => {
-    e.preventDefault();
-    console.log(id);
-  };
-  console.log(data);
+
+  if (data) {
+    console.log(data);
+    if (data.admin.userId != user.userId) {
+      isDisabled = true;
+    }
+  }
+
   if (isLoading)
     return <span className="loading loading-ring loading-lg mx-auto"></span>;
   if (error)
@@ -56,145 +76,76 @@ const ProjectDetailPage = () => {
   return (
     <div>
       {" "}
-      <div className="navbar bg-base-100 shadow-md">
+      <div className="navbar  flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-40   shadow  bg-gradient-to-r from-violet-400 to-purple-300">
         <div className="flex space-x-1 items-center">
           <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden ">
             <IoMenuOutline size={28} />
           </label>
-          <span className="text-xl font-medium">Details</span>
+          <span className="text-2xl font-extrabold text-base-100">Details</span>
         </div>
       </div>
       {/* details */}
       <div className="flex flex-col pr-10">
-        <table className=" table w-full md:w-1/2  border-2  m-2">
-          <tbody>
-            <tr>
-              <th>Project Name</th>
-              <td>{data.projectName}</td>
-            </tr>
-            <tr>
-              <th>Description</th>
-              <td>{data.description}</td>
-            </tr>
-            <tr>
-              <th>Admin</th>
-              <td>{data.admin.email}</td>
-            </tr>
-            <tr>
-              <th>Start Date</th>
-              <td>{data.startDate.slice(0, 10)}</td>
-            </tr>
-            <tr>
-              <th>Has dead line </th>
-              <td>{data.hasDeadLine ? "Yes" : "No"}</td>
-            </tr>
-            {data.hasDeadLine && (
-              <tr>
-                <th>DeadLine</th>
-                <td>{data.deadLine.slice(0, 10)}</td>
-              </tr>
-            )}
-            <tr>
-              <th>Members</th>
-              <td>
-                {data.ProjectMember.map((member) => {
-                  return (
-                    <tr key={member.userId}>
-                      <td>{member.member.email}</td>
-                    </tr>
-                  );
-                })}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div className="">
-          <div className="space-x-3 m-5 font-medium  flex items-center">
-            <div>Add Members</div>
-            <input
-              type="text"
-              className="input  input-bordered"
-              placeholder="User Email"
-              onChange={(e) => setUserEmail(e.target.value)}
-              value={userEmail}
-            />
-            <button className=" btn">Add User</button>
-          </div>
+        {/* detail*/}
+        <div className="flex   justify-between">
+          <ProjectDetails data={data} isDisabled={isDisabled} />
+          {!isDisabled && <DeleteProject projectId={projectId} />}
         </div>
-        <div className="m-5">
-          <div className="flex items-center space-x-3">
-            <span className="font-medium text-2xl">Subtasks</span>
-            <form
-              action=""
-              className="flex items-center space-x-3"
-              onSubmit={handleAddSubtask}
-            >
+
+        <div className="">
+          {" "}
+          <div className="p-2">
+            {addMember.isError && (
+              <ErrorElement message={addMember.error.response.data.error} />
+            )}
+          </div>
+          {!isDisabled ? (
+            <div className="space-x-3 m-5 font-medium  flex items-center flex-col space-y-2 md:flex-row">
+              <div>Add Members</div>
               <input
                 type="text"
-                name=""
-                id=""
-                placeholder="Subtask title"
-                className="input input-bordered"
-                onChange={(e) => setSubtaskName(e.target.value)}
-                value={subtaskName}
+                className="input  input-bordered"
+                placeholder="User Email"
+                onChange={(e) => setUserEmail(e.target.value)}
+                value={userEmail}
               />
-              <button className="btn">Add Subtask</button>
-            </form>
+              <button
+                disabled={isDisabled}
+                className=" btn"
+                onClick={handleAddMember}
+              >
+                Add User
+              </button>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="m-5">
+          <div className="flex items-center space-x-3 flex-col md:flex-row">
+            <span className="font-medium text-2xl mb-3">Subtasks</span>
+            {!isDisabled && (
+              <form
+                action=""
+                className="flex items-center space-x-3"
+                onSubmit={handleAddSubtask}
+              >
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  placeholder="Subtask title"
+                  className="input input-bordered"
+                  onChange={(e) => setSubtaskName(e.target.value)}
+                  value={subtaskName}
+                />
+                <button className="btn">Add Subtask</button>
+              </form>
+            )}
           </div>
-          <div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Subtask Name</th>
-                  <th>Assigned users</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.SubTask.map((subtask) => {
-                  return (
-                    <tr>
-                      <td>{subtask.subTaskName} </td>
-                      <td>
-                        <tr>
-                          <td>
-                            {subtask.AssignedSubtask.map((user) => (
-                              <tr>
-                                <td>{user.email}</td>
-                              </tr>
-                            ))}
-                          </td>
-                          <td>
-                            <div>
-                              <details className="dropdown">
-                                <summary className="m-1 btn">Add user</summary>
-                                <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-                                  {data.ProjectMember.map((member) => (
-                                    <li
-                                      key={member.userId}
-                                      className="cursor-pointer"
-                                      onClick={() => {
-                                        assign.mutate({
-                                          projectMemberId:
-                                            member.projectMemberId,
-                                          subtaskId: subtask.subTaskId,
-                                        });
-                                      }}
-                                    >
-                                      {member.member.email}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </details>
-                            </div>
-                          </td>
-                        </tr>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+
+          {/* subtasks */}
+          <Subtasks project={data} />
         </div>
       </div>
     </div>

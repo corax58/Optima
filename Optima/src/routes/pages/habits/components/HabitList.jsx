@@ -1,6 +1,8 @@
 import React from "react";
-import HabitListItem from "./habitListItem";
+// import HabitListItem from "./habitListItem";
+
 import useFetchHabit from "../../../../hooks/useFetchHabit";
+import HabitListElement from "./HabitListElement";
 
 const HabitsList = () => {
   const { data, error, isLoading } = useFetchHabit();
@@ -36,7 +38,7 @@ const HabitsList = () => {
       <ul>
         {data.map((habit) => (
           <li key={habit.habitId}>
-            <HabitListItem habit={habit}></HabitListItem>
+            <HabitListElement habit={habit}></HabitListElement>
           </li>
         ))}
       </ul>

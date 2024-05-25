@@ -46,12 +46,12 @@ const HabitsDetailsPage = () => {
     </div>;
   return (
     <div>
-      <div className="navbar bg-base-100 shadow-sm">
+      <div className="navbar bg-base-100 h-40   shadow  bg-gradient-to-r from-violet-500 to-purple-500">
         <div className="flex space-x-1 items-center">
           <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden ">
             <IoMenuOutline size={28} />
           </label>
-          <span className="text-xl font-medium">Details</span>
+          <span className="text-2xl font-extrabold text-base-100">Details</span>
         </div>
       </div>
       {/* details*/}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaPenToSquare } from "react-icons/fa6";
 import useCreateHabitEntry from "../../../../hooks/useCreatHabitEntry";
-const HabitListItem = ({ habit }) => {
+const HabitListElement = ({ habit }) => {
   const [amount, setAmount] = useState("");
 
   const onCreate = () => {
@@ -102,4 +102,4 @@ const HabitListItem = ({ habit }) => {
   );
 };
 
-export default HabitListItem;
+export default HabitListElement;

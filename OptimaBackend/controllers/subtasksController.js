@@ -51,6 +51,7 @@ const createSubtask = async (req, res) => {
 
 //delete a subtask
 const deleteSubtask = async (req, res) => {
+  console.log("stuuf");
   const { projectId, subtaskId } = req.params;
   try {
     const subtaskExist = await prisma.subTask.findFirst({
@@ -116,6 +117,7 @@ const updateSubtask = async (req, res) => {
 // assign a user to a subtask
 const assignUser = async (req, res) => {
   const { projectMemberId, subtaskId } = req.body;
+  console.log(projectMemberId, subtaskId);
   try {
     const memberId = parseInt(projectMemberId);
     const subtask = parseInt(subtaskId);
@@ -137,6 +139,16 @@ const assignUser = async (req, res) => {
       throw Error("the subtask doesnt exist");
     }
 
+    const alreadyAssigned = await prisma.assignedSubtask.findFirst({
+      where: {
+        projectMemberProjectMemberId: memberId,
+        subTaskSubTaskId: subtask,
+      },
+    });
+    if (alreadyAssigned) {
+      throw Error("this user is already assigned to this subtask");
+    }
+
     const assing = await prisma.assignedSubtask.create({
       data: {
         projectMemberProjectMemberId: memberId,
@@ -152,7 +164,9 @@ const assignUser = async (req, res) => {
 };
 
 const removeFromSubtask = async (req, res) => {
-  const { projectMemberId, subtaskId } = req.body();
+  const { projectMemberId, subtaskId } = req.params;
+
+  console.log(projectMemberId, subtaskId);
   try {
     const memberId = parseInt(projectMemberId);
     const subtask = parseInt(subtaskId);
@@ -168,8 +182,7 @@ const removeFromSubtask = async (req, res) => {
 
     const assing = await prisma.assignedSubtask.delete({
       where: {
-        projectMemberProjectMemberId: memberId,
-        subTaskSubTaskId: subtask,
+        assignmentId: assignedUser.assignmentId,
       },
     });
 

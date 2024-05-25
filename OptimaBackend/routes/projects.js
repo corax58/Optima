@@ -10,9 +10,11 @@ const {
   addUser,
   removeUser,
   getMembers,
+  getReport,
 } = require("../controllers/projectsController");
 
 //projects
+router.get("/report/:userId", getReport);
 
 router.get("/:userId/:projectId", getProject);
 

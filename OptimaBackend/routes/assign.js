@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post("/", assignUser);
 
-router.delete("/", removeFromSubtask);
+router.delete("/:subtaskId/:projectMemberId", removeFromSubtask);
 
 module.exports = router;

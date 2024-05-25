@@ -6,12 +6,14 @@ import AddProject from "./AddProject";
 const ProjectsNavbar = () => {
   return (
     <div className="sticky top-0  bg-base-100">
-      <div className=" flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-16 shadow-md">
+      <div className=" flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-40   shadow  bg-gradient-to-r from-violet-400 to-purple-300">
         <div className="flex space-x-1">
           <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden ">
             <IoMenuOutline size={28} />
           </label>
-          <span>Projects</span>
+          <span className="text-2xl font-extrabold text-base-100">
+            My Projects
+          </span>
         </div>
         <div className="flex space-x-3">
           <button
@@ -20,13 +22,6 @@ const ProjectsNavbar = () => {
           >
             Add Project
           </button>
-          <div className="btn">
-            <div className="md:hidden w-fit flex items-center">
-              <MdOutlineViewTimeline size={25} />
-            </div>
-
-            <span className="hidden md:block">View timeline</span>
-          </div>
         </div>
 
         <dialog id="my_modal_4" className="modal">

@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import { IoMenuOutline } from "react-icons/io5";
+import NabBar from "./NabBar";
+
 const NavLayout = () => {
   return (
     <div>
@@ -15,22 +17,11 @@ const NavLayout = () => {
             htmlFor="my-drawer-2"
             aria-label="close sidebar"
             className="drawer-overlay"
-          >
-            {" "}
-          </label>
+          ></label>
 
-          <ul className="menu p-4   w-64 min-h-full bg-base-200 text-base-content">
-            {/* Sidebar content here */}
-            <li>
-              <Link to={"/"}>Home</Link>{" "}
-            </li>
-            <li>
-              <Link to={"/habits"}>Habits</Link>{" "}
-            </li>
-            <li>
-              <Link to={"/projects"}>Projects</Link>{" "}
-            </li>
-          </ul>
+          <div className="menu p-4 h-full  w-64 min-h-full bg-base-200 text-base-content">
+            <NabBar />
+          </div>
         </div>
       </div>
     </div>

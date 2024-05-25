@@ -14,13 +14,14 @@ datasource db {
 }
 
 model User {
-  userId         String          @id @default(cuid())
-  email          String          @unique
-  hashedPassword String
-  Habits         Habit[]
-  Projects       Project[]
+  userId          String            @id @default(cuid())
+  email           String            @unique
+  hashedPassword  String
+  Habits          Habit[]
+  Projects        Project[]
   // ProjectMember  ProjectMember[]
-  ProjectMember  ProjectMember[]
+  ProjectMember   ProjectMember[]
+  ProjecctInvites ProjecctInvites[]
 }
 
 model Habit {
@@ -45,41 +46,51 @@ model HabitEntry {
 }
 
 model Project {
-  projectId     String          @id @default(cuid())
-  projectName   String
-  description   String?
-  startDate     DateTime
-  hasDeadLine   Boolean
-  deadLine      DateTime?
-  admin         User            @relation(fields: [adminId], references: [userId])
-  adminId       String
-  SubTask       SubTask[]
-  ProjectMember ProjectMember[]
+  projectId       String            @id @default(cuid())
+  projectName     String
+  description     String?
+  startDate       DateTime
+  hasDeadLine     Boolean
+  deadLine        DateTime?
+  admin           User              @relation(fields: [adminId], references: [userId])
+  adminId         String
+  SubTask         SubTask[]
+  ProjectMember   ProjectMember[]
+  ProjecctInvites ProjecctInvites[]
+  status          String?
 }
 
 model SubTask {
-  subTaskId   Int     @id @default(autoincrement())
-  subTaskName String
-  project     Project @relation(fields: [projectProjectId], references: [projectId])
-
+  subTaskId        Int               @id @default(autoincrement())
+  subTaskName      String
+  project          Project           @relation(fields: [projectProjectId], references: [projectId], onDelete: Cascade)
   projectProjectId String
   AssignedSubtask  AssignedSubtask[]
+  status           String?
 }
 
 model ProjectMember {
-  projectMemberId  Int     @id @default(autoincrement())
-  project          Project @relation(fields: [projectProjectId], references: [projectId])
+  projectMemberId  Int               @id @default(autoincrement())
+  project          Project           @relation(fields: [projectProjectId], references: [projectId], onDelete: Cascade)
   projectProjectId String
-
-  member          User              @relation(fields: [userUserId], references: [userId])
-  userUserId      String
-  AssignedSubtask AssignedSubtask[]
+  member           User              @relation(fields: [userUserId], references: [userId], onDelete: Cascade)
+  userUserId       String
+  AssignedSubtask  AssignedSubtask[]
 }
 
 model AssignedSubtask {
   assignmentId                 Int           @id @default(autoincrement())
-  subtask                      SubTask       @relation(fields: [subTaskSubTaskId], references: [subTaskId])
+  subtask                      SubTask       @relation(fields: [subTaskSubTaskId], references: [subTaskId], onDelete: Cascade)
   subTaskSubTaskId             Int
-  member                       ProjectMember @relation(fields: [projectMemberProjectMemberId], references: [projectMemberId])
+  member                       ProjectMember @relation(fields: [projectMemberProjectMemberId], references: [projectMemberId], onDelete: Cascade)
   projectMemberProjectMemberId Int
+}
+
+model ProjecctInvites {
+  id               Int     @id @default(autoincrement())
+  project          Project @relation(fields: [projectProjectId], references: [projectId], onDelete: Cascade)
+  projectProjectId String
+  user             User    @relation(fields: [userUserId], references: [userId])
+  userUserId       String
+  state            String
 }

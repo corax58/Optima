@@ -6,13 +6,13 @@ import { IoMenuOutline } from "react-icons/io5";
 
 const HabitsNavbar = () => {
   return (
-    <div className=" sticky top-0  bg-base-100">
-      <div className=" flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-16 shadow">
+    <div className=" sticky top-0  ">
+      <div className=" flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-40   shadow  bg-gradient-to-r from-violet-400 to-purple-300">
         <div className="flex space-x-1">
           <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden ">
-            <IoMenuOutline size={28} />
+            <IoMenuOutline size={28} className="text-white" />
           </label>
-          <span>Habits</span>
+          <span className="text-2xl font-extrabold text-base-100">Habits</span>
         </div>
         <div className="flex space-x-3">
           <button
@@ -21,12 +21,6 @@ const HabitsNavbar = () => {
           >
             <BiPlusCircle size={25} />
             <span className="hidden md:block">Add habit</span>
-          </button>
-          <button className="  btn">
-            <TbReportAnalytics size={25} className=" " />
-            <span className="hidden md:block hover:underline">
-              View report{" "}
-            </span>
           </button>
         </div>
 

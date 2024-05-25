@@ -16,6 +16,7 @@ const projectRouter = require("./routes/projects");
 const subtasRouter = require("./routes/subtask");
 const memberRouter = require("./routes/member");
 const assignRouter = require("./routes/assign");
+const invitesRouter = require("./routes/invites");
 
 async function main() {
   //middlewares
@@ -30,6 +31,7 @@ async function main() {
   app.use("/api/subtask", subtasRouter);
   app.use("/api/member", memberRouter);
   app.use("/api/assign", assignRouter);
+  app.use("/api/invites", invitesRouter);
 
   //test routes
   app.get("/api/table", async (req, res) => {

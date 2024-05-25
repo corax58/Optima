@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useCreateProject } from "../../../../hooks/useCreateProject";
+import WarningElement from "../../../../components/WarningElement";
 
 const AddProject = () => {
   const [hasDeadline, setHasDeadline] = useState(false);
@@ -7,6 +8,7 @@ const AddProject = () => {
   const [projectDescription, setProjectDescription] = useState("");
   const [projectStartDate, setProjectStartDate] = useState("");
   const [projectDeadline, setProjectDeadline] = useState("");
+  const [error, setError] = useState();
 
   const onCreate = () => {
     setProjectName("");
@@ -22,14 +24,23 @@ const AddProject = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log(new Date());
+
     let startDate = "";
     if (projectStartDate != "") {
       startDate = projectStartDate + "T16:32:29.543Z";
+    } else {
+      startDate = new Date();
     }
     let deadLine = "";
     if (hasDeadline) {
       deadLine = projectDeadline + "T16:32:29.543Z";
     }
+
+    console.log({
+      startDate,
+      deadLine,
+    });
 
     addProject.mutate({
       projectName: projectName,
@@ -57,7 +68,7 @@ const AddProject = () => {
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span>{addProject.error.message}</span>
+          <span>{addProject.error.response.data.error}</span>
         </div>
       )}
       <form
@@ -117,6 +128,7 @@ const AddProject = () => {
         <div className="flex space-x-2 items-center">
           <label htmlFor="deadline">Deadline</label>
           <input
+            required={hasDeadline}
             disabled={!hasDeadline}
             className="input input-bordered"
             type="date"
@@ -126,7 +138,8 @@ const AddProject = () => {
             onChange={(e) => setProjectDeadline(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        {error && <WarningElement message={error} />}
+        <button type="submit" className="btn btn-accent">
           {addProject.isPending ? (
             <span className="loading loading-spinner loading-md"></span>
           ) : (

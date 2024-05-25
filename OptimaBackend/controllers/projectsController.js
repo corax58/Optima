@@ -1,13 +1,13 @@
 const prisma = require("../prisma/prismaClient");
 
-// get all Projecs of a user
-const getAllProjects = async (req, res) => {
+// get projects
+const getReport = async (req, res) => {
   const { userId } = req.params;
-
   try {
-    projects = await prisma.project.findMany({
+    const projects = await prisma.project.findMany({
       where: {
         adminId: userId,
+        hasDeadLine: true,
       },
     });
 
@@ -17,15 +17,43 @@ const getAllProjects = async (req, res) => {
     res.status(404).json(e);
   }
 };
+// get all Projecs of a user
+
+const getAllProjects = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    myProjects = await prisma.project.findMany({
+      where: {
+        adminId: userId,
+      },
+    });
+    memberOf = await prisma.projectMember.findMany({
+      where: {
+        userUserId: userId,
+        project: {
+          adminId: { not: userId },
+        },
+      },
+      select: {
+        project: true,
+      },
+    });
+
+    res.status(200).json({ myProjects, memberOf });
+  } catch (e) {
+    console.log(e);
+    res.status(404).json(e);
+  }
+};
 
 //get a Project
 const getProject = async (req, res) => {
-  const { userId, projectId } = req.params;
+  const { projectId } = req.params;
   try {
     const project = await prisma.project.findFirst({
       where: {
         projectId: projectId,
-        adminId: userId,
       },
       include: {
         ProjectMember: {
@@ -38,7 +66,16 @@ const getProject = async (req, res) => {
           include: {
             AssignedSubtask: {
               include: {
-                member: true,
+                member: {
+                  include: {
+                    member: {
+                      select: {
+                        email: true,
+                        userId: true,
+                      },
+                    },
+                  },
+                },
               },
             },
           },
@@ -59,6 +96,8 @@ const getProject = async (req, res) => {
 // create a new project
 const createProject = async (req, res) => {
   const { userId } = req.params;
+
+  console.log(new Date());
   let { projectName, projectDescription, hasDeadLine, deadLine, startDate } =
     req.body;
   console.log("creating project");
@@ -71,6 +110,9 @@ const createProject = async (req, res) => {
   }
 
   try {
+    if (hasDeadLine && deadLine < startDate) {
+      throw Error("the deadline should be after  the start date");
+    }
     const project = await prisma.project.create({
       data: {
         projectName,
@@ -90,7 +132,7 @@ const createProject = async (req, res) => {
     res.status(200).json(project);
   } catch (err) {
     console.log(err);
-    res.status(404).json({ error: "error" });
+    res.status(404).json({ error: err.message });
   }
 };
 
@@ -156,7 +198,7 @@ const deleteProject = async (req, res) => {
 
     res.status(200).json(project);
   } catch (e) {
-    console.log(e);
+    console.log(e.message);
 
     res.status(404).json({ error: e.message });
   }
@@ -184,8 +226,8 @@ const getMembers = async (req, res) => {
 
 const addUser = async (req, res) => {
   const { projectId } = req.params;
-  const { userId } = req.body;
-
+  const { userEmail } = req.body;
+  console.log(userEmail);
   try {
     const projectExist = await prisma.project.findFirst({
       where: {
@@ -195,9 +237,17 @@ const addUser = async (req, res) => {
     if (!projectExist) {
       throw Error("Project doesnt exist");
     }
+    const user = await prisma.user.findFirst({
+      where: {
+        email: userEmail,
+      },
+    });
+    if (!user) {
+      throw Error("there is no user with that email");
+    }
     const alreadyMember = await prisma.projectMember.findFirst({
       where: {
-        userUserId: userId,
+        userUserId: user.userId,
         projectProjectId: projectId,
       },
     });
@@ -205,13 +255,29 @@ const addUser = async (req, res) => {
     if (alreadyMember) {
       throw Error("this user is already a member of this  project");
     }
-    const member = await prisma.projectMember.create({
-      data: {
+
+    const alreadInvited = await prisma.projecctInvites.findFirst({
+      where: {
         projectProjectId: projectId,
-        userUserId: userId,
+        userUserId: user.userId,
+        state: "waiting",
       },
     });
-    res.status(200).json(member);
+
+    if (alreadInvited) {
+      throw Error("You already sent invitation to this user");
+    }
+
+    const invite = await prisma.projecctInvites.create({
+      data: {
+        projectProjectId: projectId,
+        userUserId: user.userId,
+        state: "waiting",
+      },
+    });
+
+    console.log(invite);
+    res.status(200).json({ message: "Invitation sent" });
   } catch (e) {
     console.log(e);
     res.status(404).json({ error: e.message });
@@ -257,4 +323,5 @@ module.exports = {
   addUser,
   removeUser,
   getMembers,
+  getReport,
 };

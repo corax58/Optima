@@ -1,14 +1,11 @@
-import React from 'react'
-import { useAuthContext } from '../../hooks/useAuthContext'
-import { Navigate, Outlet } from 'react-router-dom';
+import React from "react";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { Navigate, Outlet } from "react-router-dom";
 
 const NonPrivateRoutes = () => {
-const {state}= useAuthContext();
+  const { state } = useAuthContext();
+  if (state) return <Navigate to={"/"} />;
+  return <Outlet />;
+};
 
-if(state) <Navigate to={'/'}/>
-  return (
-    <Outlet/>
-  )
-}
-
-export default NonPrivateRoutes
+export default NonPrivateRoutes;
