@@ -12,8 +12,20 @@ import Invites from "./pages/invites/Invites";
 import PrivateRoutes from "./layouts/PrivateRoutes";
 import TimeLinePage from "./pages/timeline/TimeLinePage";
 import JoinedProjectsPage from "./pages/projects/JoinedProjectsPage";
+import EmailSent from "./pages/EmailSent";
+import VerifyEmail from "./pages/VerifyEmail";
+import Experiment from "./pages/Experiment";
 
 const router = createBrowserRouter([
+  {
+    path: "/email-sent",
+    element: <EmailSent />,
+  },
+  {
+    path: "/verify-email",
+    element: <VerifyEmail />,
+  },
+
   {
     element: <NonPrivateRoutes />,
     children: [

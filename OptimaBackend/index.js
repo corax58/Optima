@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const prisma = require("./prisma/prismaClient");
+const cron = require("node-cron");
 
 //express app
 const app = express();
@@ -18,6 +19,7 @@ const memberRouter = require("./routes/member");
 const assignRouter = require("./routes/assign");
 const invitesRouter = require("./routes/invites");
 const subscribeRouter = require("./routes/subscribe");
+const { sendNotification } = require("./controllers/subscribeController");
 
 async function main() {
   //middlewares
@@ -46,8 +48,6 @@ async function main() {
     res.json(users);
   });
   app.get("/api/clean", async (req, res) => {
-    await prisma.habitEntry.deleteMany();
-    await prisma.habit.deleteMany();
     await prisma.user.deleteMany();
     res.json({ msg: "Cleaned everything" });
   });
@@ -57,6 +57,7 @@ async function main() {
     res.status(404).json({ error: `Route ${req.originalUrl} not found` });
   });
 
+  console.log(await prisma.notificationSubcription.findMany());
   //Listening for requrests
   app.listen(PORT, () => {
     console.log(`Listening on PORT ${PORT}`);
@@ -72,3 +73,52 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+
+//notifications
+
+function addHours(timestamp, hours) {
+  // Parse the given timestamp
+  const date = new Date(timestamp);
+
+  // Add hours
+  date.setHours(date.getHours() + hours);
+
+  // Format the modified timestamp back to the desired format
+  const modifiedTimestamp = date.toISOString();
+
+  return modifiedTimestamp;
+}
+
+async function checkReminders() {
+  // Given timestamp
+
+  const time = new Date();
+  const modtime = addHours(time, 3);
+  const currentTime = modtime.slice(11, 16);
+
+  // console.log(modtime.slice(11, 16));
+
+  const habits = await prisma.habit.findMany({
+    where: {
+      remindMe: true,
+      remindTime: currentTime,
+    },
+    include: {
+      user: {
+        select: {
+          userId: true,
+        },
+      },
+    },
+  });
+
+  for (const habit of habits) {
+    sendNotification({
+      userId: habit.userId,
+      message: `Time for ${habit.habitName}`,
+    });
+  }
+}
+
+cron.schedule("* * * * *", checkReminders);
+// checkReminders();

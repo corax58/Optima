@@ -39,6 +39,7 @@ const createSubtask = async (req, res) => {
       data: {
         subTaskName: subtaskName,
         projectProjectId: projectId,
+        status: "New",
       },
     });
 
@@ -81,9 +82,7 @@ const deleteSubtask = async (req, res) => {
 //update a subtask
 const updateSubtask = async (req, res) => {
   const { projectId, subtaskId } = req.params;
-  let { subtaskName } = req.body;
-
-  console.log(subtaskName);
+  const { status } = req.body;
 
   try {
     const subtaskExist = await prisma.subTask.findFirst({
@@ -99,11 +98,10 @@ const updateSubtask = async (req, res) => {
 
     const subtask = await prisma.subTask.update({
       where: {
-        projectProjectId: projectId,
-        subTaskId: parseInt(subtaskId),
+        subTaskId: subtaskExist.subTaskId,
       },
       data: {
-        subTaskName: subtaskName,
+        status: status,
       },
     });
 

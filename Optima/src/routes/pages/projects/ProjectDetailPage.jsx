@@ -12,6 +12,8 @@ import ErrorElement from "../../../components/ErrorElement";
 import { MdDelete } from "react-icons/md";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import DeleteProject from "./components/DeleteProject";
+import EditProject from "./components/EditProject";
+import { MdOutlineEdit } from "react-icons/md";
 
 const ProjectDetailPage = () => {
   const { projectId } = useParams();
@@ -76,7 +78,7 @@ const ProjectDetailPage = () => {
   return (
     <div>
       {" "}
-      <div className="navbar  flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-40   shadow  bg-gradient-to-r from-violet-400 to-purple-300">
+      <div className="navbar  flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-40   shadow  nav-bar-color">
         <div className="flex space-x-1 items-center">
           <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden ">
             <IoMenuOutline size={28} />
@@ -85,33 +87,55 @@ const ProjectDetailPage = () => {
         </div>
       </div>
       {/* details */}
-      <div className="flex flex-col pr-10">
+      <div className="flex flex-col ">
         {/* detail*/}
-        <div className="flex   justify-between">
+        <div className="flex  mr-10 justify-between">
           <ProjectDetails data={data} isDisabled={isDisabled} />
-          {!isDisabled && <DeleteProject projectId={projectId} />}
+          {!isDisabled && (
+            <>
+              <DeleteProject projectId={projectId} />
+              <button
+                onClick={() =>
+                  document.getElementById(`edit_${projectId}`).showModal()
+                }
+                className="btn btn-neutral  shadow hover:shadow-md hover:scale-105 transition-all -ml-20 mt-3"
+              >
+                <MdOutlineEdit size={20} />
+              </button>
+            </>
+          )}
         </div>
-
+        <dialog id={`edit_${projectId}`} className="modal">
+          <div className="modal-box">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                ✕
+              </button>
+            </form>
+            <EditProject project={data} />
+          </div>
+        </dialog>
         <div className="">
           {" "}
-          <div className="p-2">
+          <div className="">
             {addMember.isError && (
               <ErrorElement message={addMember.error.response.data.error} />
             )}
           </div>
           {!isDisabled ? (
-            <div className="space-x-3 m-5 font-medium  flex items-center flex-col space-y-2 md:flex-row">
+            <div className="space-x-3 mx-3 mb-3 font-medium  flex items-center flex-col space-y-2 md:flex-row">
               <div>Add Members</div>
               <input
                 type="text"
-                className="input  input-bordered"
+                className="input input-sm input-bordered"
                 placeholder="User Email"
                 onChange={(e) => setUserEmail(e.target.value)}
                 value={userEmail}
               />
               <button
                 disabled={isDisabled}
-                className=" btn"
+                className=" btn btn-sm"
                 onClick={handleAddMember}
               >
                 Add User
@@ -121,27 +145,29 @@ const ProjectDetailPage = () => {
             <></>
           )}
         </div>
-        <div className="m-5">
-          <div className="flex items-center space-x-3 flex-col md:flex-row">
+        <div className="   border-neutral rounded-md">
+          <div className="flex items-center space-x-3  justify-between bg-base-300 p-2 border-y-2 border-neutral-content shadow-sm ">
             <span className="font-medium text-2xl mb-3">Subtasks</span>
-            {!isDisabled && (
-              <form
-                action=""
-                className="flex items-center space-x-3"
-                onSubmit={handleAddSubtask}
-              >
-                <input
-                  type="text"
-                  name=""
-                  id=""
-                  placeholder="Subtask title"
-                  className="input input-bordered"
-                  onChange={(e) => setSubtaskName(e.target.value)}
-                  value={subtaskName}
-                />
-                <button className="btn">Add Subtask</button>
-              </form>
-            )}
+            <div>
+              {!isDisabled && (
+                <form
+                  action=""
+                  className="flex items-center space-x-3"
+                  onSubmit={handleAddSubtask}
+                >
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    placeholder="Subtask title"
+                    className="input input-bordered input-sm"
+                    onChange={(e) => setSubtaskName(e.target.value)}
+                    value={subtaskName}
+                  />
+                  <button className="btn btn-sm">Add Subtask</button>
+                </form>
+              )}
+            </div>
           </div>
 
           {/* subtasks */}

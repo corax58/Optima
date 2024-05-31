@@ -140,9 +140,12 @@ const createProject = async (req, res) => {
 
 // update a project
 const updateProject = async (req, res) => {
+  console.log("update started");
   const { projectId } = req.params;
   //   const { habitName, description, unit, remindMe } = req.body;
-  const { projectName, projectDescription, deadLine, startDate } = req.body;
+  let { projectName, projectDescription, deadLine, startDate } = req.body;
+
+  console.log({ projectName, projectDescription, deadLine, startDate });
 
   try {
     const projectExists = await prisma.project.findFirst({
@@ -158,7 +161,10 @@ const updateProject = async (req, res) => {
     if (startDate < deadLine) {
       throw Error("Dead line should be after the start date");
     }
-    const project = prisma.project.update({
+    if (deadLine == "") {
+      deadLine = null;
+    }
+    const project = await prisma.project.update({
       where: {
         projectId: projectId,
       },
@@ -169,7 +175,7 @@ const updateProject = async (req, res) => {
         startDate,
       },
     });
-
+    console.log(project);
     res.status(200).json(project);
   } catch (err) {
     console.log(err);

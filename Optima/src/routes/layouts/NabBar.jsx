@@ -11,8 +11,14 @@ import { FaPowerOff, FaUser, FaUserGroup } from "react-icons/fa6";
 import { useLogout } from "../../hooks/useLogout";
 import { PiMemberOf } from "react-icons/pi";
 import { FcUp } from "react-icons/fc";
+import { TbLogout2 } from "react-icons/tb";
+import useFetchInvites from "../../hooks/useFetchInvites";
+import ThemeSwitcher from "../../components/ThemeSwitch";
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 
 const NabBar = () => {
+  const { data, loading, error } = useFetchInvites();
+
   const { Logout } = useLogout();
   const navigator = useNavigate();
   const [openProjects, setOpenProjects] = useState(false);
@@ -46,14 +52,16 @@ const NabBar = () => {
           <div className="flex items-center space-x-2 text-base font-medium rounded-md m-2 ">
             <div className="w-full">
               <div
-                className="flex space-x-2 justify-between w-full hover:bg-base-300 p-1 cursor-pointer hover:shadow-md  hover:scale-105 transition-all hover:font-semibold"
+                className="flex space-x-2 justify-between w-full hover:bg-info hover:text-info-content hover:rounded-md p-1 cursor-pointer hover:shadow-md  hover:scale-105 transition-all hover:font-semibold"
                 onClick={() => setOpenProjects(!openProjects)}
               >
                 <div className="flex space-x-2">
                   <FaProjectDiagram size={20} />
                   <span>Projects</span>
                 </div>
-                <div>{openProjects ? "<" : ">"}</div>
+                <div>
+                  {openProjects ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                </div>
               </div>
               <div
                 className={`flex flex-col  pl-8 overflow-hidden transition-all ease-in-out transform duration-500 ${
@@ -85,13 +93,19 @@ const NabBar = () => {
           {/* <Link className="nav-element" to={"/invites"}></Link> */}
         </div>
       </div>
-      <div
-        onClick={() => document.getElementById("logout").showModal()}
-        className=" flex items-center space-x-2 text-lg text-neutral bg-neutral-content font-medium  p-1 w-max rounded-md shadow hover:shadow-xl hover:scale-105  transition-all cursor-pointer hover:bg-neutral hover:text-neutral-content"
-      >
-        <FaPowerOff size={20} />
-        <span>Logout</span>
+      <div className="border p-3 rounded-md bg-base-100 ">
+        <div className="mb-3">
+          <ThemeSwitcher />
+        </div>
+
+        <div
+          onClick={() => document.getElementById("logout").showModal()}
+          className=" bg-base-300 flex items-center space-x-2 text-lg text-neutral  font-medium  p-1 w-max rounded-md shadow hover:shadow-xl hover:scale-105  transition-all cursor-pointer hover:bg-neutral hover:text-neutral-content"
+        >
+          <TbLogout2 /> <span>Logout</span>
+        </div>
       </div>
+
       <dialog id="logout" className="modal">
         <div className="modal-box w-max p-7">
           <form method="dialog">

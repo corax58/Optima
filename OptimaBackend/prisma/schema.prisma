@@ -19,10 +19,11 @@ model User {
   hashedPassword          String
   Habits                  Habit[]
   Projects                Project[]
-  // ProjectMember  ProjectMember[]
   ProjectMember           ProjectMember[]
   ProjecctInvites         ProjecctInvites[]
   NotificationSubcription NotificationSubcription[]
+  emailVerified           Boolean                   @default(false)
+  VerificationToken       String?
 }
 
 model Habit {
@@ -33,15 +34,16 @@ model Habit {
   HabitEntry   HabitEntry[]
   quantifiable Boolean
   remindMe     Boolean
-  remindTime   DateTime?
-  user         User         @relation(fields: [userId], references: [userId])
+  remindTime   String?
+  user         User         @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId       String
+  createdAt    DateTime     @default(now())
 }
 
 model HabitEntry {
   entryId      Int      @id @default(autoincrement())
   quantity     Float?
-  habit        Habit    @relation(fields: [habitHabitId], references: [habitId])
+  habit        Habit    @relation(fields: [habitHabitId], references: [habitId], onDelete: Cascade)
   habitHabitId String
   createdAt    DateTime @default(now())
 }
@@ -53,12 +55,13 @@ model Project {
   startDate       DateTime
   hasDeadLine     Boolean
   deadLine        DateTime?
-  admin           User              @relation(fields: [adminId], references: [userId])
+  admin           User              @relation(fields: [adminId], references: [userId], onDelete: Cascade)
   adminId         String
   SubTask         SubTask[]
   ProjectMember   ProjectMember[]
   ProjecctInvites ProjecctInvites[]
   status          String?
+  createdAt       DateTime?         @default(now())
 }
 
 model SubTask {
@@ -91,7 +94,7 @@ model ProjecctInvites {
   id               Int     @id @default(autoincrement())
   project          Project @relation(fields: [projectProjectId], references: [projectId], onDelete: Cascade)
   projectProjectId String
-  user             User    @relation(fields: [userUserId], references: [userId])
+  user             User    @relation(fields: [userUserId], references: [userId], onDelete: Cascade)
   userUserId       String
   state            String
 }
@@ -99,6 +102,6 @@ model ProjecctInvites {
 model NotificationSubcription {
   id           Int    @id @default(autoincrement())
   subscription Json
-  user         User   @relation(fields: [userUserId], references: [userId])
+  user         User   @relation(fields: [userUserId], references: [userId], onDelete: Cascade)
   userUserId   String
 }

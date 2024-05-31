@@ -28,13 +28,57 @@ function transformData(entries) {
 
   return result;
 }
+function calculateAverage(data, month) {
+  const entries = transformData(data).filter(
+    (entry) => entry.date.slice(0, 3) == month
+  );
+  const sum = entries.reduce((acc, entry) => acc + entry.quantity, 0);
+  const average = sum / entries.length;
+  if (!average) {
+    return 0;
+  }
+  return Math.floor(average);
+}
 
-const HabitDashboard = ({ habitId }) => {
+function calculateTotal(data, month) {
+  if (!data) {
+    return 0;
+  }
+
+  const entries = transformData(data).filter(
+    (entry) => entry.date.slice(0, 3) == month
+  );
+
+  return entries.reduce((acc, entry) => acc + entry.quantity, 0);
+}
+function getCurrentMonthAbbreviation() {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const currentDate = new Date();
+  const currentMonthIndex = currentDate.getMonth(); // getMonth() returns a zero-based index (0 for January, 11 for December)
+  return months[currentMonthIndex];
+}
+
+const HabitDashboard = ({ habitId, dashboardVisible }) => {
   const { data, error, isLoading } = useFetchHabitEntry({
     habitId: habitId,
   });
 
-  const [month, setMonth] = useState("Jan");
+  const currentMonth = getCurrentMonthAbbreviation();
+
+  const [month, setMonth] = useState(currentMonth);
 
   if (error)
     return (
@@ -58,8 +102,9 @@ const HabitDashboard = ({ habitId }) => {
   if (isLoading)
     return <span className="loading loading-ring loading-lg"></span>;
 
+  console.log(data);
   return (
-    <div>
+    <div className={dashboardVisible ? "block" : "hidden"}>
       <div className="flex justify-center my-5">
         <label className="form-control w-full max-w-xs">
           <div className="label">
@@ -88,35 +133,50 @@ const HabitDashboard = ({ habitId }) => {
           </select>
         </label>
       </div>
-
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart
-          width={500}
-          height={300}
-          data={transformData(data).filter(
-            (entry) => entry.date.slice(0, 3) == month
-          )}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="quantity"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
-          {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
-        </LineChart>
-      </ResponsiveContainer>
+      <div className="flex flex-row w-full">
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart
+            width={500}
+            height={300}
+            data={transformData(data).filter(
+              (entry) => entry.date.slice(0, 3) == month
+            )}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="quantity"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+            {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
+          </LineChart>
+        </ResponsiveContainer>
+        <div className="flex flex-col">
+          <div className="border-2 m-3  h-max p-5 rounded-md bg-base-200">
+            <div className="font-bold text-lg w-max">{month + " "}Total</div>
+            <div className="flex text-3xl justify-center items-center">
+              <span>{calculateTotal(data, month)}</span>
+            </div>
+          </div>
+          <div className="border-2 m-3  h-max p-5 rounded-md bg-base-200">
+            <div className="font-bold text-lg w-max">{month + " "}Average</div>
+            <div className="flex text-3xl justify-center items-center">
+              <span>{calculateAverage(data, month)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

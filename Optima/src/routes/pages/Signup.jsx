@@ -91,7 +91,11 @@ const Signup = () => {
             </div>
 
             <button type="submit" className="btn btn-accent ">
-              Signup
+              {isLoading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                "Sign Up"
+              )}
             </button>
           </form>
           <div>

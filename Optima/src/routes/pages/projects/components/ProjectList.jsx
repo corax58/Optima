@@ -31,13 +31,11 @@ const ProjectList = () => {
       </div>
     );
   }
-  if (data) {
-    console.log(data);
-  }
+
   if (data) {
     return (
       <div className="">
-        <ul>
+        <ul className="px-3">
           {data.myProjects.map((project) => (
             <li key={project.projectId}>
               <ProjectListItem project={project}></ProjectListItem>

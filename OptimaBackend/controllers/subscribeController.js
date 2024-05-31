@@ -76,9 +76,6 @@ const sendNotification = async ({ userId, message }) => {
   }
 };
 
-const experiment = async ({ res, req }) => {
-  webpush.sendNotification();
-};
 module.exports = {
   subscribePush,
   sendNotification,

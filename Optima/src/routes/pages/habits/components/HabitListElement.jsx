@@ -3,12 +3,43 @@ import { Link } from "react-router-dom";
 import { FaPenToSquare } from "react-icons/fa6";
 import useCreateHabitEntry from "../../../../hooks/useCreatHabitEntry";
 import { PiCirclesFour } from "react-icons/pi";
+
+export function formatDate(dateString) {
+  // Create a Date object from the input date string
+  const date = new Date(dateString);
+
+  // Define an array of month abbreviations
+  const monthAbbreviations = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Get the year, month, and day from the Date object
+  const year = date.getUTCFullYear();
+  const month = monthAbbreviations[date.getUTCMonth()];
+  const day = date.getUTCDate();
+
+  // Return the formatted date string
+  return `${String(day).padStart(2, "0")} ${month} ${year}`;
+}
+
 const HabitListElement = ({ habit }) => {
   const [amount, setAmount] = useState("");
 
   const onCreate = () => {
     document.getElementById(habit.habitId).close();
-    console.log("habitcreated");
+
+    setAmount("");
   };
   const addHabitEntry = useCreateHabitEntry({
     onCreate,
@@ -33,7 +64,13 @@ const HabitListElement = ({ habit }) => {
           <span>{habit.habitName}</span>
         </div>
       </Link>
-      <div>
+      <div className="flex justify-between w-full items-center">
+        <div>
+          <span className=" ">Added: </span>
+          <span className=" text-sm font-light">
+            {formatDate(habit.createdAt)}
+          </span>
+        </div>
         <button
           className=" btn   h-10"
           onClick={() => document.getElementById(habit.habitId).showModal()}

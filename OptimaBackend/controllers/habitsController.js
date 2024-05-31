@@ -40,6 +40,19 @@ const getHabit = async (req, res) => {
   }
 };
 
+function subtractHours(timestamp, hours) {
+  // Parse the given timestamp
+  const date = new Date(timestamp);
+
+  // Subtract hours
+  date.setHours(date.getHours() - hours);
+
+  // Format the modified timestamp back to the desired format
+  const modifiedTimestamp = date.toISOString();
+
+  return modifiedTimestamp;
+}
+
 // create a new habit
 const createHabit = async (req, res) => {
   const { userId } = req.params;
@@ -52,8 +65,6 @@ const createHabit = async (req, res) => {
     quantifiable,
   } = req.body;
 
-  const time = new Date(`2024-11-11T${remindTime}:00Z`);
-
   try {
     const habit = await prisma.habit.create({
       data: {
@@ -64,7 +75,7 @@ const createHabit = async (req, res) => {
         remindMe,
         quantifiable,
         userId: userId,
-        remindTime: time,
+        remindTime: remindTime,
       },
     });
 
@@ -78,8 +89,9 @@ const createHabit = async (req, res) => {
 // update a habit
 const updateHabit = async (req, res) => {
   const { habitId } = req.params;
-  let { habitName, description, unit, remindMe } = req.body;
+  let { habitName, description, unit, remindMe, quantifiable } = req.body;
 
+  console.log(description);
   try {
     // if (!habitId) {
     //   throw Error("no user");
@@ -95,19 +107,6 @@ const updateHabit = async (req, res) => {
       throw Error("No habit with that id");
     }
 
-    if (!habitName) {
-      habitName = habitExists.habitName;
-    }
-    if (!description) {
-      habitName = habitExists.description;
-    }
-    if (!unit) {
-      habitName = habitExists.unit;
-    }
-    if (!remindMe) {
-      habitName = habitExists.remindMe;
-    }
-
     const habit = await prisma.habit.update({
       where: {
         habitId: habitId,
@@ -117,8 +116,11 @@ const updateHabit = async (req, res) => {
         description,
         unit,
         remindMe,
+        quantifiable,
       },
     });
+
+    console.table(habit);
 
     res.status(200).json(habit);
   } catch (err) {

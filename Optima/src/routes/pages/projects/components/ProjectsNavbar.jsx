@@ -6,7 +6,7 @@ import AddProject from "./AddProject";
 const ProjectsNavbar = () => {
   return (
     <div className="sticky top-0  bg-base-100">
-      <div className=" flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-40   shadow  bg-gradient-to-r from-violet-400 to-purple-300">
+      <div className=" flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-40   shadow  nav-bar-color">
         <div className="flex space-x-1">
           <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden ">
             <IoMenuOutline size={28} />

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useCreateHabit } from "../../../../hooks/useCreateHabit";
+import { useEditHabit } from "../../../../hooks/useEditHabit";
 
 function isWhitespaceOrNumbers(str) {
   if (str.trim() === "") {
@@ -11,29 +11,27 @@ function isWhitespaceOrNumbers(str) {
   return numberPattern.test(str);
 }
 
-const AddHabit = () => {
-  const [quantifiable, setQuatifieble] = useState(false);
-  const [remindMe, setRemindMe] = useState(false);
-  const [habitName, setHabitname] = useState("");
-  const [habitDescription, setHabitDescription] = useState("");
-  const [Unit, setUnit] = useState("");
-  const [time, setTime] = useState("00:00");
+const EditHabit = ({ data }) => {
+  const [quantifiable, setQuatifieble] = useState(data.quantifiable);
+  const [remindMe, setRemindMe] = useState(data.remindMe);
+  const [habitName, setHabitname] = useState(data.habitName);
+  const [habitDescription, setHabitDescription] = useState(data.description);
+  const [Unit, setUnit] = useState(data.unit);
+  const [time, setTime] = useState(data.remindTime);
   const [nameError, setNameError] = useState();
 
-  const onCreate = () => {
-    setHabitDescription("");
-    setHabitname("");
-    setUnit("");
-    setRemindMe(false);
-    setTime("00:00");
-    setQuatifieble(false);
+  const onEdit = () => {
+    setHabitDescription(data.description);
+    setHabitname(data.habitName);
+    setUnit(data.unit);
+    setRemindMe(data.remindMe);
+    setTime(data.remindTime);
+    setQuatifieble(data.quantifiable);
 
-    document.getElementById("my_modal_3").close();
+    document.getElementById(`edit_${data.habitId}`).close();
   };
 
-  console.log(remindMe);
-
-  const addHabit = useCreateHabit({ onCreate });
+  const editHabit = useEditHabit({ onEdit, habitId: data.habitId });
 
   const toggleUnit = () => {
     setQuatifieble(!quantifiable);
@@ -50,9 +48,18 @@ const AddHabit = () => {
       setNameError("Invalid habit name");
       return;
     }
-    addHabit.mutate({
+    const habit = {
       habitName: habitName,
       habitDescription: habitDescription,
+      quantifiable: quantifiable,
+      unit: Unit,
+      remindMe: remindMe,
+      remindTime: time,
+    };
+    console.log(habit);
+    editHabit.mutate({
+      habitName: habitName,
+      description: habitDescription,
       quantifiable: quantifiable,
       unit: Unit,
       remindMe: remindMe,
@@ -62,8 +69,7 @@ const AddHabit = () => {
 
   return (
     <>
-      {addHabit.isSuccess}
-      {addHabit.error && (
+      {editHabit.error && (
         <div role="alert" className="alert alert-error ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +84,7 @@ const AddHabit = () => {
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span>{addHabit.error.message}</span>
+          <span>{editHabit.error.message}</span>
         </div>
       )}
       <form
@@ -130,6 +136,7 @@ const AddHabit = () => {
         ></textarea>
         <div className="space-x-2 flex items-center">
           <input
+            checked={quantifiable}
             type="checkbox"
             name=""
             className="checkbox"
@@ -151,6 +158,7 @@ const AddHabit = () => {
         </div>
         <div className="space-x-2 flex items-center">
           <input
+            checked={remindMe}
             type="checkbox"
             name=""
             className="checkbox"
@@ -173,13 +181,13 @@ const AddHabit = () => {
         <button
           type="submit"
           className="btn font-bold"
-          disabled={addHabit.isPending}
+          disabled={editHabit.isPending}
         >
-          {addHabit.isPending ? "loading" : "Create habit"}
+          {editHabit.isPending ? "loading" : "Create habit"}
         </button>
       </form>
     </>
   );
 };
 
-export default AddHabit;
+export default EditHabit;

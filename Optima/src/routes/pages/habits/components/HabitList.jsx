@@ -7,6 +7,10 @@ import HabitListElement from "./HabitListElement";
 const HabitsList = () => {
   const { data, error, isLoading } = useFetchHabit();
 
+  if (data) {
+    console.log(data);
+  }
+
   if (isLoading)
     return (
       <div className="flex w-full justify-center mt-10">
@@ -32,18 +36,19 @@ const HabitsList = () => {
         <span>Couldn't load habits</span>
       </div>
     );
-
-  return (
-    <div className="mx-3">
-      <ul>
-        {data.map((habit) => (
-          <li key={habit.habitId}>
-            <HabitListElement habit={habit}></HabitListElement>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  if (data) {
+    return (
+      <div className="mx-3">
+        <ul>
+          {data.map((habit) => (
+            <li key={habit.habitId}>
+              <HabitListElement habit={habit}></HabitListElement>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 };
 
 export default HabitsList;

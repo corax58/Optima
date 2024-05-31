@@ -20,10 +20,18 @@ const Subtasks = ({ project }) => {
           {assign.error.response.data.error}
         </div>
       )}
-      <div className=" space-y-5  justify-evenly flex-wrap flex break-before-column      p-5 ">
-        {project.SubTask.map((subtask) => {
-          return <SubtaskCard Subtask={subtask} project={project} />;
-        })}
+      <div className="container mx-auto p-4">
+        <div className=" columns-1 md:columns-2  xl:columns-4 gap-5 gap-y-4   gap-x-3">
+          {project.SubTask.map((subtask) => {
+            return (
+              <SubtaskCard
+                Subtask={subtask}
+                key={subtask.subTaskId}
+                project={project}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

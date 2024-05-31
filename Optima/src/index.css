@@ -10,6 +10,29 @@
         @apply  font-bold mr-3
     }
     .nav-element{
-        @apply  flex items-center space-x-2 text-base font-medium hover:bg-base-300 rounded-md m-2 p-1 hover:shadow-md  hover:scale-105 transition-all hover:font-semibold
+        @apply  flex items-center space-x-2 text-base font-medium hover:bg-info hover:text-info-content  rounded-md m-2 p-1 hover:shadow-md  hover:scale-105 transition-all hover:font-semibold
+    }
+    .nav-bar-color{
+        @apply bg-gradient-to-r from-info to-primary
+    }
+}
+
+
+.animated-background {
+    background-size: 400%;
+
+    -webkit-animation: animation 3s ease infinite;
+    -moz-animation: animation 3s ease infinite;
+    animation: animation 3s ease infinite;
+}
+
+@keyframes animation {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+    
+    50% {
+        background-position: 100% 50%;
     }
 }
