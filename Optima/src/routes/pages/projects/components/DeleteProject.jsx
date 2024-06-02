@@ -20,7 +20,7 @@ const DeleteProject = ({ projectId }) => {
         onClick={() =>
           document.getElementById(`delete_${projectId}`).showModal()
         }
-        className=" btn btn-error  shadow hover:shadow-md hover:scale-105 transition-all -ml-20 mt-3 "
+        className=" btn z-30 btn-error w-max  shadow hover:shadow-md hover:scale-105 transition-all  "
       >
         {" "}
         <RiDeleteBin2Line size={25} />

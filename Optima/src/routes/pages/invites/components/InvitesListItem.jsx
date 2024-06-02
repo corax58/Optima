@@ -14,11 +14,11 @@ const InvitesListItem = ({ Invite }) => {
   if (Invite.state != "waiting") {
     isDisabled = true;
   }
-  let bgState = "";
+  let bgState = " bg-base-100";
   if (Invite.state == "accepted") {
-    bgState = " bg-green-100";
+    bgState = " bg-success text-success-content";
   } else if (Invite.state == "declined") {
-    bgState = " bg-red-100";
+    bgState = " bg-error text-error-content";
   }
 
   return (

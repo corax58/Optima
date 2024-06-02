@@ -120,5 +120,11 @@ async function checkReminders() {
   }
 }
 
+const subs = prisma.notificationSubcription.findMany().then((res) => {
+  console.log("subs:");
+  console.log(res);
+});
+const habits = prisma.habit.findMany().then((res) => console.log(res));
+
 cron.schedule("* * * * *", checkReminders);
 // checkReminders();

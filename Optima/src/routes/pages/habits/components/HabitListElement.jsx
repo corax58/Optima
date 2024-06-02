@@ -54,7 +54,7 @@ const HabitListElement = ({ habit }) => {
   };
 
   return (
-    <div className="flex w-full p-2 justify-between border-b border-primary-400  items-center ">
+    <div className="flex w-full p-2 justify-between border-b border-primary-400  items-center bg-base-100  ">
       <Link
         to={`/habits/${habit.habitId}`}
         className="hover:text-lg hover:font-semibold transition-all hover:underline  w-1/2 "
@@ -66,8 +66,8 @@ const HabitListElement = ({ habit }) => {
       </Link>
       <div className="flex justify-between w-full items-center">
         <div>
-          <span className=" ">Added: </span>
-          <span className=" text-sm font-light">
+          <span className=" text-sm font-semibold md:text-base">Added: </span>
+          <span className=" text-xs md:text-sm font-light">
             {formatDate(habit.createdAt)}
           </span>
         </div>
@@ -76,7 +76,7 @@ const HabitListElement = ({ habit }) => {
           onClick={() => document.getElementById(habit.habitId).showModal()}
         >
           <FaPenToSquare size={20} />
-          Add entry
+          <span className="hidden md:block">Add entry</span>
         </button>
       </div>
 

@@ -38,7 +38,6 @@ const HabitsDetailsPage = () => {
     habitId: habitId,
   });
 
-  console.log(data);
   const onDelete = () => {
     navigator("/habits");
   };
@@ -79,7 +78,10 @@ const HabitsDetailsPage = () => {
     <div>
       <div className="navbar bg-base-100 h-40   shadow  nav-bar-color">
         <div className="flex space-x-1 items-center">
-          <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden ">
+          <label
+            htmlFor="my-drawer-2"
+            className=" drawer-button lg:hidden  text-base-100"
+          >
             <IoMenuOutline size={28} />
           </label>
           <span className="text-2xl font-extrabold text-base-100">Details</span>
@@ -172,7 +174,7 @@ const HabitsDetailsPage = () => {
           <button>close</button>
         </form>
       </dialog>
-      <HabitDashboard habitId={habitId} dashboardVisible={data.quantifiable} />
+      <HabitDashboard habitId={habitId} />
     </div>
   );
 };

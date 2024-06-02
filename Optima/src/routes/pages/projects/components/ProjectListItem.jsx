@@ -6,7 +6,7 @@ import { formatDate } from "../../habits/components/HabitListElement";
 const ProjectListItem = ({ project }) => {
   return (
     <>
-      <div className="flex items-center border-b border-primary-400">
+      <div className="flex items-center border-b border-primary-400 bg-base-100 ">
         <Link
           to={`/projects/${project.projectId}`}
           className="flex w-1/2   p-2 font-medium justify-between   items-center h-14 hover:text-lg hover:font-semibold transition-all hover:underline "

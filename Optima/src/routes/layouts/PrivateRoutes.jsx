@@ -49,15 +49,18 @@ const registerServiceWorker = async () => {
 
 const Notif = async () => {
   await checkPermissions();
+  console.log("there is permision");
   await requestNotificationPermission();
+  console.log("permissino allowed");
   await registerServiceWorker();
+  console.log("sw registered");
 };
-const PrivateRoutes = () => {
-  const { state } = useAuthContext();
 
+const PrivateRoutes = () => {
   const user = localStorage.getItem("user");
   if (!user) return <Navigate to={"/login"} />;
   if (user) {
+    console.log("starting the notif fun");
     Notif();
   }
   return <Outlet />;

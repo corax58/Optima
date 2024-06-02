@@ -35,7 +35,7 @@ const ProjectList = () => {
   if (data) {
     return (
       <div className="">
-        <ul className="px-3">
+        <ul className=" shadow-md">
           {data.myProjects.map((project) => (
             <li key={project.projectId}>
               <ProjectListItem project={project}></ProjectListItem>

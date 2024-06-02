@@ -33,7 +33,7 @@ const InvitesList = () => {
     );
   }
   return (
-    <div className="">
+    <div className="shadow">
       <ul>
         {data.map((Invite) => (
           <li key={Invite.id}>

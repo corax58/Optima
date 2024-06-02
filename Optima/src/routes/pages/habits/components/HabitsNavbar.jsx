@@ -6,11 +6,14 @@ import { IoMenuOutline } from "react-icons/io5";
 import bgImage from "../.././../../assets/Images/bgPattern.jpg";
 const HabitsNavbar = () => {
   return (
-    <div className=" sticky top-0  ">
-      <div className=" nav-bar-color flex  justify-between items-center pl-4 lg:pl-4 pr-5   w-full flex-row  h-40   shadow  ">
-        <div className="flex space-x-1">
-          <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden ">
-            <IoMenuOutline size={28} className="text-white" />
+    <div className=" sticky top-0  h-1/5 ">
+      <div className=" nav-bar-color flex  justify-between items-center pl-4 lg:pl-4 pr-5   w-full flex-row h-full    shadow  ">
+        <div className="flex space-x-1 items-center">
+          <label
+            htmlFor="my-drawer-2"
+            className=" drawer-button lg:hidden text-base-100 "
+          >
+            <IoMenuOutline size={28} className="" />
           </label>
           <span className="text-2xl font-extrabold text-base-100">Habits</span>
         </div>

@@ -177,13 +177,22 @@ const addHabitEntry = async (req, res) => {
     if (!habitExists) {
       throw Error("habit does not exist");
     }
-
-    const habitEntry = await prisma.habitEntry.create({
-      data: {
-        quantity: parseFloat(quantity),
-        habitHabitId: habitId,
-      },
-    });
+    let habitEntry;
+    if (habitExists.quantifiable) {
+      habitEntry = await prisma.habitEntry.create({
+        data: {
+          quantity: parseFloat(quantity),
+          habitHabitId: habitId,
+        },
+      });
+    } else {
+      habitEntry = await prisma.habitEntry.create({
+        data: {
+          quantity: 1,
+          habitHabitId: habitId,
+        },
+      });
+    }
 
     res.status(200).json(habitEntry);
   } catch (err) {

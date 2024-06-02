@@ -12,7 +12,7 @@ const NavLayout = () => {
           <Outlet />
         </div>
 
-        <div className="drawer-side m">
+        <div className="drawer-side   z-50">
           <label
             htmlFor="my-drawer-2"
             aria-label="close sidebar"

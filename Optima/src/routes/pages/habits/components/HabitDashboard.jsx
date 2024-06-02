@@ -71,7 +71,7 @@ function getCurrentMonthAbbreviation() {
   return months[currentMonthIndex];
 }
 
-const HabitDashboard = ({ habitId, dashboardVisible }) => {
+const HabitDashboard = ({ habitId }) => {
   const { data, error, isLoading } = useFetchHabitEntry({
     habitId: habitId,
   });
@@ -102,11 +102,10 @@ const HabitDashboard = ({ habitId, dashboardVisible }) => {
   if (isLoading)
     return <span className="loading loading-ring loading-lg"></span>;
 
-  console.log(data);
   return (
-    <div className={dashboardVisible ? "block" : "hidden"}>
+    <div>
       <div className="flex justify-center my-5">
-        <label className="form-control w-full max-w-xs">
+        <label className="form-control w-full max-w-xs p-2">
           <div className="label">
             <span className="label-text font-medium">Month:</span>
           </div>
@@ -133,7 +132,7 @@ const HabitDashboard = ({ habitId, dashboardVisible }) => {
           </select>
         </label>
       </div>
-      <div className="flex flex-row w-full">
+      <div className="flex flex-col md:flex-row  w-full">
         <ResponsiveContainer width="100%" height={300}>
           <LineChart
             width={500}
@@ -162,7 +161,7 @@ const HabitDashboard = ({ habitId, dashboardVisible }) => {
             {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
           </LineChart>
         </ResponsiveContainer>
-        <div className="flex flex-col">
+        <div className="flex flex-row md:flex-col">
           <div className="border-2 m-3  h-max p-5 rounded-md bg-base-200">
             <div className="font-bold text-lg w-max">{month + " "}Total</div>
             <div className="flex text-3xl justify-center items-center">

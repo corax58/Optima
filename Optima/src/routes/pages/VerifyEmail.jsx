@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { BsCheckCircle } from "react-icons/bs";
 import { Link, useSearchParams } from "react-router-dom";
@@ -9,11 +9,26 @@ import { useVerifyEmail } from "../../hooks/useVerifyEmail";
 const VerifyEmail = () => {
   let [searchParams, setSearchParams] = useSearchParams();
   const token = searchParams.get("token");
-  const { Verify, error, isLoading } = useVerifyEmail();
+  const verifyEmail = useMutation({
+    mutationFn: (token) => {
+      axios
+        .get(
+          `${
+            import.meta.env.VITE_SERVER_API_URL
+          }user/verify-email?token=${token}`
+        )
+        .then((res) => {
+          setIsLoading(false);
+          res.data;
+        });
+    },
+  });
 
-  Verify(token);
+  useEffect(() => {
+    verifyEmail.mutate(token);
+  }, []);
 
-  if (isLoading) {
+  if (verifyEmail.isPending) {
     return (
       <div className="flex justify-center bg-base-200 items-center h-screen p-5">
         {" "}
@@ -23,7 +38,7 @@ const VerifyEmail = () => {
       </div>
     );
   }
-  if (error) {
+  if (verifyEmail.isError) {
     return (
       <div className="flex justify-center bg-base-200 items-center h-screen p-5">
         {" "}

@@ -14,6 +14,7 @@ import { RiDeleteBin2Line } from "react-icons/ri";
 import DeleteProject from "./components/DeleteProject";
 import EditProject from "./components/EditProject";
 import { MdOutlineEdit } from "react-icons/md";
+import { PiPlus } from "react-icons/pi";
 
 const ProjectDetailPage = () => {
   const { projectId } = useParams();
@@ -80,7 +81,10 @@ const ProjectDetailPage = () => {
       {" "}
       <div className="navbar  flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-40   shadow  nav-bar-color">
         <div className="flex space-x-1 items-center">
-          <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden ">
+          <label
+            htmlFor="my-drawer-2"
+            className="text-base-100 items-center flex drawer-button lg:hidden "
+          >
             <IoMenuOutline size={28} />
           </label>
           <span className="text-2xl font-extrabold text-base-100">Details</span>
@@ -92,17 +96,17 @@ const ProjectDetailPage = () => {
         <div className="flex  mr-10 justify-between">
           <ProjectDetails data={data} isDisabled={isDisabled} />
           {!isDisabled && (
-            <>
+            <div className="flex -ml-20 mt-3 flex-col space-y-3">
               <DeleteProject projectId={projectId} />
               <button
                 onClick={() =>
                   document.getElementById(`edit_${projectId}`).showModal()
                 }
-                className="btn btn-neutral  shadow hover:shadow-md hover:scale-105 transition-all -ml-20 mt-3"
+                className="btn  z-30 btn-neutral  shadow hover:shadow-md hover:scale-105 transition-all "
               >
                 <MdOutlineEdit size={20} />
               </button>
-            </>
+            </div>
           )}
         </div>
         <dialog id={`edit_${projectId}`} className="modal">
@@ -124,21 +128,20 @@ const ProjectDetailPage = () => {
             )}
           </div>
           {!isDisabled ? (
-            <div className="space-x-3 mx-3 mb-3 font-medium  flex items-center flex-col space-y-2 md:flex-row">
-              <div>Add Members</div>
+            <div className="space-x-3 mx-3 mb-3 font-medium  flex items-center  space-y-2 md:flex-row">
               <input
                 type="text"
-                className="input input-sm input-bordered"
+                className="input input-sm input-bordered w-full md:w-max"
                 placeholder="User Email"
                 onChange={(e) => setUserEmail(e.target.value)}
                 value={userEmail}
               />
               <button
                 disabled={isDisabled}
-                className=" btn btn-sm"
+                className=" btn btn-sm "
                 onClick={handleAddMember}
               >
-                Add User
+                Add Member
               </button>
             </div>
           ) : (
@@ -160,11 +163,14 @@ const ProjectDetailPage = () => {
                     name=""
                     id=""
                     placeholder="Subtask title"
-                    className="input input-bordered input-sm"
+                    className="input input-bordered input-sm w-full"
                     onChange={(e) => setSubtaskName(e.target.value)}
                     value={subtaskName}
                   />
-                  <button className="btn btn-sm">Add Subtask</button>
+                  <button className="btn btn-sm">
+                    <PiPlus />
+                    <span className="hidden md:block"> Add Subtask</span>
+                  </button>
                 </form>
               )}
             </div>

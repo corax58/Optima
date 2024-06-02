@@ -16,6 +16,8 @@ const urlBase64ToUint8Array = (base64String) => {
 
 export const register = async () => {
   // Check if service workers are supported
+
+  console.log("hellllo");
   if ("serviceWorker" in navigator && "PushManager" in window) {
     navigator.serviceWorker
       .register("/serviceWorker.js")

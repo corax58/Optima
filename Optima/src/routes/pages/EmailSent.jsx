@@ -9,7 +9,7 @@ const EmailSent = () => {
           <IoMailUnreadOutline size={100} />
         </div>
         <div className="p-5 w-full flex justify-center">
-          <p>Verification Email Sent, Check Your Email 😃</p>
+          <p>Verification Email Sent, Check Your inbox 😃</p>
         </div>
       </div>
     </div>

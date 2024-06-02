@@ -61,7 +61,7 @@ const Calander = () => {
       <span>{error.message}</span>
     </div>;
   return (
-    <div>
+    <div className="calendar-container block">
       <Fullcalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"

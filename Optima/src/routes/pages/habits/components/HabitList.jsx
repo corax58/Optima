@@ -38,7 +38,7 @@ const HabitsList = () => {
     );
   if (data) {
     return (
-      <div className="mx-3">
+      <div className=" shadow  ">
         <ul>
           {data.map((habit) => (
             <li key={habit.habitId}>

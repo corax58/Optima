@@ -12,6 +12,7 @@ const urlBase64ToUint8Array = (base64String) => {
 };
 
 const saveSubscription = async (subscription, userId) => {
+  console.log("sending subs");
   const response = await fetch("http://localhost:4000/api/subscribe", {
     method: "POST",
     headers: {

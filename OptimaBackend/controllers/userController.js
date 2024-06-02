@@ -19,12 +19,11 @@ const sendVerificationEmail = async (email, token) => {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD,
     },
-    debug: true, // include SMTP traffic in the logs
-    logger: true, // log to console
+    // log to console
   });
   console.log("transporter created: ", transporter);
 
-  const verificationLink = `http://localhost:4000/verify-email?token=${token}`;
+  const verificationLink = `http://localhost:5173/verify-email?token=${token}`;
 
   let mailOptions = {
     from: process.env.EMAIL,
