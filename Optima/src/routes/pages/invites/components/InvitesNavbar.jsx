@@ -3,8 +3,8 @@ import { IoMenuOutline } from "react-icons/io5";
 
 const InvitesNavbar = () => {
   return (
-    <div className=" h-1/5 ">
-      <div className=" navbar  flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-40   shadow  nav-bar-color">
+    <div className=" h-1/5  ">
+      <div className=" navbar  flex  justify-between items-center pl-4 lg:pl-4 pr-5  w-full flex-row  h-full  shadow  nav-bar-color">
         <div className="flex space-x-1 items-center">
           <label
             htmlFor="my-drawer-2"

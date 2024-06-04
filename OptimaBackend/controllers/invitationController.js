@@ -72,6 +72,9 @@ const getInvites = async (req, res) => {
     where: {
       userUserId: userId,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
     include: {
       project: {
         include: {

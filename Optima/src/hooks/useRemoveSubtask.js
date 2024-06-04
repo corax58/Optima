@@ -13,6 +13,9 @@ const useRemoveSubtask = ({ projectId }) => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [`${projectId}`] });
     },
+    onMutate: () => {
+      queryClient.invalidateQueries({ queryKey: [`${projectId}`] });
+    },
   });
 };
 

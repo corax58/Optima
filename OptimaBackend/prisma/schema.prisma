@@ -91,12 +91,13 @@ model AssignedSubtask {
 }
 
 model ProjecctInvites {
-  id               Int     @id @default(autoincrement())
-  project          Project @relation(fields: [projectProjectId], references: [projectId], onDelete: Cascade)
+  id               Int       @id @default(autoincrement())
+  project          Project   @relation(fields: [projectProjectId], references: [projectId], onDelete: Cascade)
   projectProjectId String
-  user             User    @relation(fields: [userUserId], references: [userId], onDelete: Cascade)
+  user             User      @relation(fields: [userUserId], references: [userId], onDelete: Cascade)
   userUserId       String
   state            String
+  createdAt        DateTime? @default(now())
 }
 
 model NotificationSubcription {

@@ -299,14 +299,15 @@ const addUser = async (req, res) => {
 // remove user from a project
 
 const removeUser = async (req, res) => {
-  const { projectId } = req.params;
-  const { userId } = req.body;
+  const { memberId } = req.params;
 
+  console.log(req.params);
+  // const { userId } = req.body;
+  console.log(memberId);
   try {
     const memberExist = await prisma.projectMember.findFirst({
       where: {
-        projectProjectId: projectId,
-        userUserId: userId,
+        projectMemberId: parseInt(memberId),
       },
     });
     if (!memberExist) {
@@ -314,9 +315,7 @@ const removeUser = async (req, res) => {
     }
     const member = await prisma.projectMember.delete({
       where: {
-        projectMemberId: memberExist.projectMemberId,
-        projectProjectId: projectId,
-        userUserId: userId,
+        projectMemberId: parseInt(memberId),
       },
     });
     res.status(200).json(member);

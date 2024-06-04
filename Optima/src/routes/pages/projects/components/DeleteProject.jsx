@@ -7,7 +7,7 @@ const DeleteProject = ({ projectId }) => {
   const navigator = useNavigate();
   const onDelete = () => {
     document.getElementById(`delete_${projectId}`).close();
-    navigator("/projects");
+    navigator("/myprojects");
   };
   const deleteProject = useDeleteProject({ onDelete, projectId });
 

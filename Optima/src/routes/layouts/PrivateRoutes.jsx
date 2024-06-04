@@ -11,49 +11,54 @@ const checkPermissions = async () => {
 const requestNotificationPermission = async () => {
   const permission = await Notification.requestPermission();
   if (permission !== "granted") {
-    throw new Error("notification permission not granted");
+    throw new Error("Notification permission not granted");
   }
 };
 
 const registerServiceWorker = async () => {
+  console.log("1");
   const registration = await navigator.serviceWorker.register(
     "/serviceWorker.js"
   );
+  console.log("2");
 
   // Wait for the service worker to be activated
+  const serviceWorkerStateChange = (serviceWorker) =>
+    new Promise((resolve) => {
+      serviceWorker.addEventListener("statechange", function () {
+        if (this.state === "activated") resolve();
+      });
+    });
+
   if (registration.installing) {
-    await new Promise((resolve) => {
-      registration.installing.addEventListener("statechange", function () {
-        if (this.state === "activated") resolve();
-      });
-    });
+    await serviceWorkerStateChange(registration.installing);
   } else if (registration.waiting) {
-    await new Promise((resolve) => {
-      registration.waiting.addEventListener("statechange", function () {
-        if (this.state === "activated") resolve();
-      });
-    });
-  } else if (registration.active) {
-    // The service worker is already active
+    await serviceWorkerStateChange(registration.waiting);
   }
 
-  // Retrieve userId from localStorage
-  const userId = JSON.parse(localStorage.getItem("user")).userId;
+  console.log("3");
+  // Retrieve userId from localStorage safely
+  const user = localStorage.getItem("user");
+  const userId = user ? JSON.parse(user).userId : null;
   if (userId && registration.active) {
     // Send userId to the service worker
     registration.active.postMessage({ type: "SET_USER_ID", userId });
   }
-
+  console.log("4");
   return registration;
 };
 
 const Notif = async () => {
-  await checkPermissions();
-  console.log("there is permision");
-  await requestNotificationPermission();
-  console.log("permissino allowed");
-  await registerServiceWorker();
-  console.log("sw registered");
+  try {
+    await checkPermissions();
+    console.log("Service worker permission is supported");
+    await requestNotificationPermission();
+    console.log("Notification permission allowed");
+    await registerServiceWorker();
+    console.log("Service worker registered");
+  } catch (error) {
+    console.error("Error during initialization:", error);
+  }
 };
 
 const PrivateRoutes = () => {

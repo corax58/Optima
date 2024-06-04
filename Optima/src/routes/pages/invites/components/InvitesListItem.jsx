@@ -28,7 +28,7 @@ const InvitesListItem = ({ Invite }) => {
           document.getElementById(`Invite_${Invite.id}`).showModal()
         }
         className={
-          "flex w-full p-2 pl-5 font-medium justify-between border-b border-primary-400  items-center h-14 hover:text-lg hover:font-semibold transition-all hover:underline " +
+          "flex w-full p-2 pl-5 font-medium justify-between border-b border-primary-400  cursor-pointer items-center h-14 hover:text-lg hover:font-semibold transition-all hover:underline " +
           bgState
         }
       >

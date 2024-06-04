@@ -8,7 +8,7 @@ import { BiTrash } from "react-icons/bi";
 import useUpdateSubtask from "../../../../hooks/useUpdateSubtask";
 import { useAuthContext } from "../../../../hooks/useAuthContext";
 
-const SubtaskCard = ({ Subtask, project }) => {
+const SubtaskCard = ({ Subtask, project, isDisabled }) => {
   const { state } = useAuthContext();
   console.log(state.user.userId);
   const [canChangeStatu, setCanChangeStatus] = useState(false);
@@ -69,7 +69,10 @@ const SubtaskCard = ({ Subtask, project }) => {
               <div className="w-max bg-base-100 border-2 rounded-full px-2 group space-x-2 hover:bg-base-300 flex cursor-pointer ">
                 <span className="">{member.member.member.email}</span>
                 <button
-                  className="bg-red-300 p-1 rounded-full scale-0 group-hover:scale-100 transition-all"
+                  className={
+                    "bg-error text-error-content p-1 rounded-full scale-0 group-hover:scale-100 transition-all" +
+                    (isDisabled ? " hidden" : " ")
+                  }
                   onClick={() =>
                     unAssign.mutate({
                       subtaskId: Subtask.subTaskId,
@@ -82,7 +85,7 @@ const SubtaskCard = ({ Subtask, project }) => {
               </div>
             ))}
           </div>
-          <div className="dropdown">
+          <div className={"dropdown" + (isDisabled ? " hidden" : " ")}>
             <summary
               tabIndex={0}
               role="button"
@@ -92,12 +95,12 @@ const SubtaskCard = ({ Subtask, project }) => {
             </summary>
             <ul
               tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 space-y-1"
             >
               {project.ProjectMember.map((member, index) => (
                 <li
                   key={index}
-                  className="cursor-pointer"
+                  className="cursor-pointer p-1 hover:bg-base-300 rounded-md"
                   onClick={() => {
                     assign.mutate({
                       projectMemberId: member.projectMemberId,

@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post("/:projectId", addUser);
 
-router.delete("/:projectId", removeUser);
+router.delete("/:memberId", removeUser);
 
 router.get("/:projectId", getMembers);
 

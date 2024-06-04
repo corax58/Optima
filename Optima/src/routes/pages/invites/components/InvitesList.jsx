@@ -32,6 +32,8 @@ const InvitesList = () => {
       </div>
     );
   }
+
+  if (!data) return null;
   return (
     <div className="shadow">
       <ul>

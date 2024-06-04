@@ -168,7 +168,7 @@ const HabitDashboard = ({ habitId }) => {
               <span>{calculateTotal(data, month)}</span>
             </div>
           </div>
-          <div className="border-2 m-3  h-max p-5 rounded-md bg-base-200">
+          <div className="border-2 m-3  h-max p-5 rounded-md bg-base-200 shadow">
             <div className="font-bold text-lg w-max">{month + " "}Average</div>
             <div className="flex text-3xl justify-center items-center">
               <span>{calculateAverage(data, month)}</span>

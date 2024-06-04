@@ -15,6 +15,7 @@ import DeleteProject from "./components/DeleteProject";
 import EditProject from "./components/EditProject";
 import { MdOutlineEdit } from "react-icons/md";
 import { PiPlus } from "react-icons/pi";
+import SuccessElement from "../../../components/SuccessElement";
 
 const ProjectDetailPage = () => {
   const { projectId } = useParams();
@@ -33,7 +34,8 @@ const ProjectDetailPage = () => {
     setUserEmail("");
   };
   const addMember = useAddMember({ onAdd, projectId });
-  const handleAddMember = () => {
+  const handleAdd = (e) => {
+    e.preventDefault();
     addMember.mutate({ userEmail });
   };
 
@@ -42,7 +44,6 @@ const ProjectDetailPage = () => {
   };
 
   const createSubtask = useCreateSubtask({ onCreate, projectId });
-  const navigator = useNavigate();
 
   const handleAddSubtask = (e) => {
     e.preventDefault();
@@ -122,14 +123,21 @@ const ProjectDetailPage = () => {
         </dialog>
         <div className="">
           {" "}
-          <div className="">
+          <div className=" px-4">
             {addMember.isError && (
               <ErrorElement message={addMember.error.response.data.error} />
             )}
+            {addMember.isSuccess && (
+              <SuccessElement message="Invitation Sent Successfully" />
+            )}
           </div>
           {!isDisabled ? (
-            <div className="space-x-3 mx-3 mb-3 font-medium  flex items-center  space-y-2 md:flex-row">
+            <form
+              className="space-x-3 mx-3 mb-3 font-medium  flex items-center  space-y-2 md:flex-row"
+              onSubmit={handleAdd}
+            >
               <input
+                required
                 type="text"
                 className="input input-sm input-bordered w-full md:w-max"
                 placeholder="User Email"
@@ -137,13 +145,13 @@ const ProjectDetailPage = () => {
                 value={userEmail}
               />
               <button
+                type="submit"
                 disabled={isDisabled}
                 className=" btn btn-sm "
-                onClick={handleAddMember}
               >
-                Add Member
+                Send Invitation
               </button>
-            </div>
+            </form>
           ) : (
             <></>
           )}
@@ -159,6 +167,7 @@ const ProjectDetailPage = () => {
                   onSubmit={handleAddSubtask}
                 >
                   <input
+                    required
                     type="text"
                     name=""
                     id=""
@@ -177,7 +186,7 @@ const ProjectDetailPage = () => {
           </div>
 
           {/* subtasks */}
-          <Subtasks project={data} />
+          <Subtasks project={data} isDisabled={isDisabled} />
         </div>
       </div>
     </div>

@@ -45,12 +45,23 @@ const ProjectDetails = ({ data, isDisabled }) => {
                       <td>
                         <div className="p-1 flex space-x-1   hover:bg-base-300 bg-base-200 group transition-all  rounded-md">
                           <span> {member.member.email}</span>
+
                           <button
-                            disabled={isDisabled}
-                            className="bg-red-300 p-1 transition-all rounded-full scale-0 group-hover:scale-100 "
-                            onClick={() =>
-                              removeMember.mutate(member.projectMemberId)
+                            disabled={
+                              isDisabled ||
+                              member.member.userId === data.admin.userId
                             }
+                            className={
+                              "bg-error text-error-content p-1 transition-all rounded-full scale-0 group-hover:scale-100 " +
+                              (isDisabled ||
+                              member.member.userId === data.admin.userId
+                                ? "hidden"
+                                : "")
+                            }
+                            onClick={() => {
+                              console.log(member);
+                              removeMember.mutate(member.projectMemberId);
+                            }}
                           >
                             <IoMdClose />
                           </button>

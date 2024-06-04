@@ -59,6 +59,7 @@ const loginUser = async (req, res) => {
     const user = await prisma.user.findFirst({
       where: {
         email: email,
+        emailVerified: true,
       },
     });
 
@@ -96,31 +97,40 @@ const signupUser = async (req, res) => {
       throw Error("Invalid email");
     }
 
-    const emailExists = await prisma.user.findFirst({
-      where: { email: email },
+    const VerifiedEmailExists = await prisma.user.findFirst({
+      where: { email: email, emailVerified: true },
     });
 
-    if (emailExists) {
+    if (VerifiedEmailExists) {
       throw Error("Email already in use");
     }
+    const unVerifiedEmailExists = await prisma.user.findFirst({
+      where: { email: email, emailVerified: false },
+    });
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash("" + password, salt);
 
-    const user = await prisma.user.create({
-      data: {
-        email: email,
-        hashedPassword: hash,
-      },
-    });
+    let user;
 
-    // const token = createToken(user.userId);
-    // res.status(200).json({
-    //   email: user.email,
-    //   token,
-    //   userId: user.userId,
+    if (unVerifiedEmailExists) {
+      user = await prisma.user.update({
+        where: {
+          userId: unVerifiedEmailExists.userId,
+        },
+        data: {
+          hashedPassword: hash,
+        },
+      });
+    } else {
+      user = await prisma.user.create({
+        data: {
+          email: email,
+          hashedPassword: hash,
+        },
+      });
+    }
 
-    // });
     const token = generateVerificationToken(user.userId, user.email);
     await prisma.user.update({
       where: {

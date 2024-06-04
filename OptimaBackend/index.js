@@ -57,7 +57,6 @@ async function main() {
     res.status(404).json({ error: `Route ${req.originalUrl} not found` });
   });
 
-  console.log(await prisma.notificationSubcription.findMany());
   //Listening for requrests
   app.listen(PORT, () => {
     console.log(`Listening on PORT ${PORT}`);
@@ -77,13 +76,10 @@ main()
 //notifications
 
 function addHours(timestamp, hours) {
-  // Parse the given timestamp
   const date = new Date(timestamp);
 
-  // Add hours
   date.setHours(date.getHours() + hours);
 
-  // Format the modified timestamp back to the desired format
   const modifiedTimestamp = date.toISOString();
 
   return modifiedTimestamp;
@@ -95,8 +91,6 @@ async function checkReminders() {
   const time = new Date();
   const modtime = addHours(time, 3);
   const currentTime = modtime.slice(11, 16);
-
-  // console.log(modtime.slice(11, 16));
 
   const habits = await prisma.habit.findMany({
     where: {
@@ -120,11 +114,46 @@ async function checkReminders() {
   }
 }
 
-const subs = prisma.notificationSubcription.findMany().then((res) => {
-  console.log("subs:");
-  console.log(res);
-});
-const habits = prisma.habit.findMany().then((res) => console.log(res));
+const createMissingHabitEntries = async () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
+  const endOfToday = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+
+  const habits = await prisma.habit.findMany();
+
+  for (const habit of habits) {
+    const entriesToday = await prisma.habitEntry.findMany({
+      where: {
+        habitHabitId: habit.habitId,
+        createdAt: {
+          gte: today,
+          lt: endOfToday,
+        },
+      },
+    });
+
+    if (entriesToday.length === 0) {
+      await prisma.habitEntry.create({
+        data: {
+          quantity: 0,
+          habitHabitId: habit.habitId,
+        },
+      });
+    }
+  }
+};
+
+// Cron jobs
 cron.schedule("* * * * *", checkReminders);
-// checkReminders();
+
+cron.schedule(
+  "59 23 * * *",
+  () => {
+    console.log("Running the cron job to create missing habit entries");
+    createMissingHabitEntries().catch((error) => console.error(error));
+  },
+  {
+    scheduled: true,
+  }
+);

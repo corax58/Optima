@@ -14,7 +14,13 @@ import ThemeSwitcher from "../../components/ThemeSwitch";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 
 const NabBar = () => {
-  const { data, loading, error } = useFetchInvites();
+  const { data, isLoading, error } = useFetchInvites();
+  let newInvitations = 0;
+  if (data) {
+    newInvitations = data?.filter(
+      (invitation) => invitation.state === "waiting"
+    ).length;
+  }
 
   const { Logout } = useLogout();
   const navigator = useNavigate();
@@ -37,7 +43,7 @@ const NabBar = () => {
         <div className=" border p-1 rounded-md bg-base-100 font-medium">
           <span>{user.email}</span>
         </div>
-        <div className="flex flex-col bg-base-100 border rounded-md">
+        <div className="flex flex-col bg-base-100 border rounded-md ">
           <Link to={"/"} className="nav-element">
             <GoHome size={20} />
             <span>Home</span>
@@ -83,9 +89,19 @@ const NabBar = () => {
             <RiTimelineView size={20} />
             <span>Time line </span>
           </Link>
-          <Link className="nav-element" to={"/invites"}>
-            <SlEnvolopeLetter size={20} />
-            <span>Invitations</span>
+          <Link className="nav-element flex justify-between" to={"/invites"}>
+            <div className="flex space-x-2">
+              <SlEnvolopeLetter size={20} />
+              <span>Invitations</span>
+            </div>
+            <div
+              className={
+                " bg-warning text-warning-content  rounded-full size-5 flex items-center justify-center" +
+                (newInvitations === 0 ? " hidden" : " ")
+              }
+            >
+              <span> {newInvitations === 0 ? "" : newInvitations}</span>
+            </div>
           </Link>
           {/* <Link className="nav-element" to={"/invites"}></Link> */}
         </div>

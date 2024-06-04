@@ -12,7 +12,7 @@ const urlBase64ToUint8Array = (base64String) => {
 };
 
 const saveSubscription = async (subscription, userId) => {
-  console.log("sending subs");
+  console.log("Sending subscription");
   const response = await fetch("http://localhost:4000/api/subscribe", {
     method: "POST",
     headers: {
@@ -27,13 +27,13 @@ let userId = null;
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SET_USER_ID") {
-    console.log("hello this is where the useid should be");
+    console.log("Received userId in service worker");
     userId = event.data.userId;
   }
 });
 
 self.addEventListener("activate", async (e) => {
-  console.log(e);
+  console.log("Service worker activated", e);
   const applicationServerKey = urlBase64ToUint8Array(
     "BLH9JhcYK7KsY8cUxW5JLIoOBuBw7h0jiGJsM2OLlt1Zir_cJTLwFqT3sY_8CuNFk5e2OQJNfmCghPzlr-vxuZc"
   );
@@ -52,26 +52,19 @@ self.addEventListener("push", (e) => {
   });
 });
 
+// Uncomment and ensure notification click handling if needed
 // self.addEventListener("notificationclick", (e) => {
 //   e.notification.close();
 //   e.waitUntil(
-//     clients
-//       .matchAll({
-//         type: "window",
-//         includeUncontrolled: true,
-//       })
-//       .then((clientsArr) => {
-//         if (clientsArr.length > 0) {
-//           clientsArr[0].focus();
-//         } else {
-//           clients.openWindow("/");
-//         }
-//       })
+//     clients.matchAll({
+//       type: "window",
+//       includeUncontrolled: true,
+//     }).then((clientsArr) => {
+//       if (clientsArr.length > 0) {
+//         clientsArr[0].focus();
+//       } else {
+//         clients.openWindow("/");
+//       }
+//     })
 //   );
 // });
-
-// Public Key:
-// BLH9JhcYK7KsY8cUxW5JLIoOBuBw7h0jiGJsM2OLlt1Zir_cJTLwFqT3sY_8CuNFk5e2OQJNfmCghPzlr-vxuZc
-
-// Private Key:
-// d-KibqxzHtoXkyTk0m9EGbwxDfpxUxreLRNM1Uv6eVI

@@ -4,11 +4,17 @@ import apiClient from "../services/apiClient";
 const useRemoveMember = ({ projectId }) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (assign) => {
-      apiClient.delete(`/member/${projectId}`, assign).then((res) => res.data);
+    mutationFn: (memberId) => {
+      console.log(memberId);
+      apiClient.delete(`/member/${memberId}`).then((res) => res.data);
     },
 
     onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [`${projectId}`],
+      });
+    },
+    onMutate: () => {
       queryClient.invalidateQueries({
         queryKey: [`${projectId}`],
       });
