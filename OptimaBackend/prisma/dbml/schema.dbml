@@ -1,0 +1,130 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  userId String [pk]
+  email String [unique, not null]
+  hashedPassword String [not null]
+  Habits Habit [not null]
+  Projects Project [not null]
+  ProjectMember ProjectMember [not null]
+  ProjecctInvites ProjecctInvites [not null]
+  NotificationSubcription NotificationSubcription [not null]
+  emailVerified Boolean [not null, default: false]
+  VerificationToken String
+  ForgotPassword ForgotPassword [not null]
+}
+
+Table ForgotPassword {
+  id Int [pk, increment]
+  verificationToken String [not null]
+  user User [not null]
+  userUserId String [not null]
+}
+
+Table Habit {
+  habitId String [pk]
+  habitName String [not null]
+  description String
+  unit String
+  HabitEntry HabitEntry [not null]
+  quantifiable Boolean [not null]
+  remindMe Boolean [not null]
+  remindTime String
+  user User [not null]
+  userId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  visibility String [not null]
+}
+
+Table HabitEntry {
+  entryId Int [pk, increment]
+  quantity Float
+  habit Habit [not null]
+  habitHabitId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table Project {
+  projectId String [pk]
+  projectName String [not null]
+  description String
+  startDate DateTime [not null]
+  hasDeadLine Boolean [not null]
+  deadLine DateTime
+  admin User [not null]
+  adminId String [not null]
+  SubTask SubTask [not null]
+  ProjectMember ProjectMember [not null]
+  ProjecctInvites ProjecctInvites [not null]
+  status String
+  createdAt DateTime [default: `now()`]
+}
+
+Table SubTask {
+  subTaskId Int [pk, increment]
+  subTaskName String [not null]
+  project Project [not null]
+  projectProjectId String [not null]
+  AssignedSubtask AssignedSubtask [not null]
+  status String
+}
+
+Table ProjectMember {
+  projectMemberId Int [pk, increment]
+  project Project [not null]
+  projectProjectId String [not null]
+  member User [not null]
+  userUserId String [not null]
+  AssignedSubtask AssignedSubtask [not null]
+}
+
+Table AssignedSubtask {
+  assignmentId Int [pk, increment]
+  subtask SubTask [not null]
+  subTaskSubTaskId Int [not null]
+  member ProjectMember [not null]
+  projectMemberProjectMemberId Int [not null]
+}
+
+Table ProjecctInvites {
+  id Int [pk, increment]
+  project Project [not null]
+  projectProjectId String [not null]
+  user User [not null]
+  userUserId String [not null]
+  state String [not null]
+  createdAt DateTime [default: `now()`]
+}
+
+Table NotificationSubcription {
+  id Int [pk, increment]
+  subscription Json [not null]
+  user User [not null]
+  userUserId String [not null]
+}
+
+Ref: ForgotPassword.userUserId > User.userId [delete: Cascade]
+
+Ref: Habit.userId > User.userId [delete: Cascade]
+
+Ref: HabitEntry.habitHabitId > Habit.habitId [delete: Cascade]
+
+Ref: Project.adminId > User.userId [delete: Cascade]
+
+Ref: SubTask.projectProjectId > Project.projectId [delete: Cascade]
+
+Ref: ProjectMember.projectProjectId > Project.projectId [delete: Cascade]
+
+Ref: ProjectMember.userUserId > User.userId [delete: Cascade]
+
+Ref: AssignedSubtask.subTaskSubTaskId > SubTask.subTaskId [delete: Cascade]
+
+Ref: AssignedSubtask.projectMemberProjectMemberId > ProjectMember.projectMemberId [delete: Cascade]
+
+Ref: ProjecctInvites.projectProjectId > Project.projectId [delete: Cascade]
+
+Ref: ProjecctInvites.userUserId > User.userId [delete: Cascade]
+
+Ref: NotificationSubcription.userUserId > User.userId [delete: Cascade]

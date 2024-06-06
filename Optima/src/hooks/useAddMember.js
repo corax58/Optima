@@ -9,7 +9,7 @@ const useAddMember = ({ onAdd, projectId }) => {
       apiClient.post(`/member/${projectId}`, user).then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`${projectId}`] });
-      console.log("useaddmember susces");
+      console.log("use addmember susces");
       onAdd();
     },
   });

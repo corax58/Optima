@@ -105,6 +105,10 @@ const HabitsDetailsPage = () => {
               <td className="">{data.unit}</td>
             </tr>
             <tr className="">
+              <th className="">Visibility: </th>
+              <td className="">{data.visibility}</td>
+            </tr>
+            <tr className="">
               <th className="">Date added: </th>
               <td className="">{formatDate(data.createdAt)}</td>
             </tr>

@@ -183,7 +183,7 @@ const EditHabit = ({ data }) => {
           className="btn font-bold"
           disabled={editHabit.isPending}
         >
-          {editHabit.isPending ? "loading" : "Create habit"}
+          {editHabit.isPending ? "loading" : "Edit habit"}
         </button>
       </form>
     </>

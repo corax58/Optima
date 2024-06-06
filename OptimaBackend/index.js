@@ -38,20 +38,6 @@ async function main() {
   app.use("/api/assign", assignRouter);
   app.use("/api/invites", invitesRouter);
 
-  //test routes
-  app.get("/api/table", async (req, res) => {
-    await prisma.user.deleteMany();
-    res.send("sus");
-  });
-  app.get("/api/allusers", async (req, res) => {
-    const users = await prisma.user.findMany();
-    res.json(users);
-  });
-  app.get("/api/clean", async (req, res) => {
-    await prisma.user.deleteMany();
-    res.json({ msg: "Cleaned everything" });
-  });
-
   //catching unregistered routes
   app.all("*", (req, res) => {
     res.status(404).json({ error: `Route ${req.originalUrl} not found` });

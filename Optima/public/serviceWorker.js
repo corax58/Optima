@@ -27,17 +27,18 @@ let userId = null;
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SET_USER_ID") {
-    console.log("Received userId in service worker");
     userId = event.data.userId;
   }
 });
 
 self.addEventListener("activate", async (e) => {
   console.log("Service worker activated", e);
+  console.log(" some hting 1 ");
+  console.log(userId);
   const applicationServerKey = urlBase64ToUint8Array(
     "BLH9JhcYK7KsY8cUxW5JLIoOBuBw7h0jiGJsM2OLlt1Zir_cJTLwFqT3sY_8CuNFk5e2OQJNfmCghPzlr-vxuZc"
   );
-  const subscription = await self.registration.pushManager.subscribe({
+  const subscription = self.registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey,
   });

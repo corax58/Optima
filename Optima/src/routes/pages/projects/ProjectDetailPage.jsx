@@ -1,25 +1,23 @@
 import React, { useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useFetchProjectDetails from "../../../hooks/useFetchProjectDetails";
 import useCreateSubtask from "../../../hooks/useCreateSubtask";
-import useAssingSubtask from "../../../hooks/useAssingSubtask";
 import Subtasks from "./components/Subtasks";
 import ProjectDetails from "./components/ProjectDetails";
-import { useQueryClient } from "@tanstack/react-query";
 import useAddMember from "../../../hooks/useAddMember";
 import ErrorElement from "../../../components/ErrorElement";
-import { MdDelete } from "react-icons/md";
-import { RiDeleteBin2Line } from "react-icons/ri";
+
 import DeleteProject from "./components/DeleteProject";
 import EditProject from "./components/EditProject";
 import { MdOutlineEdit } from "react-icons/md";
 import { PiPlus } from "react-icons/pi";
 import SuccessElement from "../../../components/SuccessElement";
+import SendInvitation from "./components/SendInvitation";
 
 const ProjectDetailPage = () => {
   const { projectId } = useParams();
-  const [userEmail, setUserEmail] = useState("");
+
   const [subtaskName, setSubtaskName] = useState("");
 
   const { data, isLoading, error } = useFetchProjectDetails({
@@ -29,15 +27,6 @@ const ProjectDetailPage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   let isDisabled = false;
-
-  const onAdd = () => {
-    setUserEmail("");
-  };
-  const addMember = useAddMember({ onAdd, projectId });
-  const handleAdd = (e) => {
-    e.preventDefault();
-    addMember.mutate({ userEmail });
-  };
 
   const onCreate = () => {
     setSubtaskName("");
@@ -123,38 +112,33 @@ const ProjectDetailPage = () => {
         </dialog>
         <div className="">
           {" "}
-          <div className=" px-4">
-            {addMember.isError && (
-              <ErrorElement message={addMember.error.response.data.error} />
-            )}
-            {addMember.isSuccess && (
-              <SuccessElement message="Invitation Sent Successfully" />
-            )}
-          </div>
           {!isDisabled ? (
-            <form
-              className="space-x-3 mx-3 mb-3 font-medium  flex items-center  space-y-2 md:flex-row"
-              onSubmit={handleAdd}
+            <button
+              type="submit"
+              disabled={isDisabled}
+              className=" btn btn-sm m-3 "
+              onClick={() =>
+                document.getElementById(`add_${data.projectId}`).showModal()
+              }
             >
-              <input
-                required
-                type="text"
-                className="input input-sm input-bordered w-full md:w-max"
-                placeholder="User Email"
-                onChange={(e) => setUserEmail(e.target.value)}
-                value={userEmail}
-              />
-              <button
-                type="submit"
-                disabled={isDisabled}
-                className=" btn btn-sm "
-              >
-                Send Invitation
-              </button>
-            </form>
+              Send Invitation
+            </button>
           ) : (
             <></>
           )}
+          <div>
+            <dialog id={`add_${data.projectId}`} className="modal">
+              <div className="modal-box ">
+                <form method="dialog">
+                  {/* if there is a button in form, it will close the modal */}
+                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                    ✕
+                  </button>
+                </form>
+                <SendInvitation projectId={data.projectId} />
+              </div>
+            </dialog>
+          </div>
         </div>
         <div className="   border-neutral rounded-md">
           <div className="flex items-center space-x-3  justify-between bg-base-300 p-2 border-y-2 border-neutral-content shadow-sm ">

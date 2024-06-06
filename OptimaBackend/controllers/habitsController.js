@@ -18,6 +18,40 @@ const getAllHabits = async (req, res) => {
   }
 };
 
+const getPublicHabits = async (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+  try {
+    if (email == "") {
+      throw Error("all fields must be filled");
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        email,
+      },
+      include: {
+        Habits: {
+          where: {
+            visibility: "public",
+          },
+          include: {
+            HabitEntry: true,
+          },
+        },
+      },
+    });
+    // console.log(user);
+    if (!user) {
+      throw Error("there is no user with that email");
+    }
+    res.status(200).json(user);
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: e.message });
+  }
+};
+
 //get a habit
 const getHabit = async (req, res) => {
   const { userId, habitId } = req.params;
@@ -63,13 +97,14 @@ const createHabit = async (req, res) => {
     remindMe,
     remindTime,
     quantifiable,
+    visibility,
   } = req.body;
 
   try {
     const habit = await prisma.habit.create({
       data: {
         habitName,
-
+        visibility,
         description: habitDescription,
         unit,
         remindMe,
@@ -235,4 +270,5 @@ module.exports = {
   deleteHabit,
   addHabitEntry,
   getAllHabitEntry,
+  getPublicHabits,
 };

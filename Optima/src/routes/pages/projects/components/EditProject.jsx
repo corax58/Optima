@@ -149,7 +149,7 @@ const EditProject = ({ project }) => {
             {editProject.isPending ? (
               <span className="loading loading-spinner loading-md"></span>
             ) : (
-              "Create Project"
+              "Edit Project"
             )}
           </button>
         </form>{" "}

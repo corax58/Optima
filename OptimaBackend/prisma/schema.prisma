@@ -8,6 +8,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -24,6 +28,14 @@ model User {
   NotificationSubcription NotificationSubcription[]
   emailVerified           Boolean                   @default(false)
   VerificationToken       String?
+  ForgotPassword          ForgotPassword[]
+}
+
+model ForgotPassword {
+  id                Int    @id @default(autoincrement())
+  verificationToken String
+  user              User   @relation(fields: [userUserId], references: [userId], onDelete: Cascade)
+  userUserId        String
 }
 
 model Habit {
@@ -38,6 +50,7 @@ model Habit {
   user         User         @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId       String
   createdAt    DateTime     @default(now())
+  visibility   String
 }
 
 model HabitEntry {

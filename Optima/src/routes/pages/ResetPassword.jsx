@@ -1,88 +1,27 @@
 import React, { useState } from "react";
-import { useSignup } from "../../hooks/useSignup";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { checkPasswordStrength } from "./Signup";
+import useResetPassword from "../../hooks/useResetPassword";
+import { useSearchParams } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
-import { Link, Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
-export function checkPasswordStrength(password) {
-  let strength = 0;
-
-  if (password.length >= 8) {
-    strength += 1;
-  }
-
-  if (password.match(/[a-z]/)) {
-    strength += 1;
-  }
-
-  if (password.match(/[A-Z]/)) {
-    strength += 1;
-  }
-
-  if (password.match(/[0-9]/)) {
-    strength += 1;
-  }
-
-  if (password.match(/[^a-zA-Z0-9]/)) {
-    strength += 1;
-  }
-
-  let strengthMessage = "";
-
-  switch (strength) {
-    case 0:
-    case 1:
-      strengthMessage = "Very Weak";
-      break;
-    case 2:
-      strengthMessage = "Weak";
-      break;
-    case 3:
-      strengthMessage = "Moderate";
-      break;
-    case 4:
-      strengthMessage = "Strong";
-      break;
-    case 5:
-      strengthMessage = "Very Strong";
-      break;
-  }
-
-  let color = "";
-
-  switch (strength) {
-    case 0:
-    case 1:
-      color = "text-red-500";
-      break;
-    case 2:
-      color = "text-red-500";
-      break;
-    case 3:
-      color = "text-yellow-500";
-      break;
-    case 4:
-      color = "text-green-500";
-      break;
-    case 5:
-      color = "text-green-500";
-      break;
-  }
-
-  return { strengthMessage, strength, color };
-}
-
-const Signup = () => {
-  const [Visible, setVisible] = useState("password");
-  const [email, setEmail] = useState("");
+const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState();
   const [strength, setStrength] = useState({});
-  const { signup, error, isLoading } = useSignup();
-  const { user } = useAuthContext();
+  const [Visible, setVisible] = useState("password");
 
+  let [searchParams, setSearchParams] = useSearchParams();
+  const token = searchParams.get("token");
+
+  const resetPassword = useResetPassword();
+
+  const handlePasswordVisible = () => {
+    if (Visible == "password") {
+      setVisible("text");
+    } else {
+      setVisible("password");
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -93,43 +32,22 @@ const Signup = () => {
       setPasswordError("Password is too weak");
       return;
     }
-    await signup(email, password);
+    resetPassword.mutate({ newPassword: password, token });
   };
-
-  const handlePasswordVisible = () => {
-    if (Visible == "password") {
-      setVisible("text");
-    } else {
-      setVisible("password");
-    }
-  };
-
-  if (user) {
-    console.log(user);
-    return <Navigate to={"/"} />;
-  }
 
   return (
     <div className="h-screen w-screen items-center flex">
-      <div className=" h-full md:h-3/4 w-96 shadow-2xl  rounded-xl mx-auto ">
+      <div className="h-full md:h-3/4 w-96 shadow-2xl  rounded-xl mx-auto ">
         <div className=" items-center flex  flex-col h-full justify-center space-y-4">
           <h1 className=" text-4xl mb-2 transition-all duration-900 ease-in-out">
-            Create an Account
+            Reset Password
           </h1>
           <form
             action=""
             className="flex flex-col space-y-2 font-medium"
             onSubmit={handleSubmit}
           >
-            <label htmlFor="">Email</label>
-            <input
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              className="input input-bordered"
-            />
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">New Password</label>
             <div className="flex">
               <input
                 required
@@ -172,7 +90,7 @@ const Signup = () => {
               )}
             </div>
             <div>
-              {error && (
+              {resetPassword.isError && (
                 <div role="alert" className="alert alert-warning p-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -187,28 +105,22 @@ const Signup = () => {
                       d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                     />
                   </svg>
-                  <span>{error}</span>
+                  <span>{resetPassword.error.response.data.error}</span>
                 </div>
               )}
             </div>
             <button type="submit" className="btn btn-accent ">
-              {isLoading ? (
+              {resetPassword.isPending ? (
                 <span className="loading loading-spinner loading-sm"></span>
               ) : (
                 "Sign Up"
               )}
             </button>
           </form>
-          <div>
-            Already have an account?{" "}
-            <Link to={"/login"} className="link  ">
-              Login
-            </Link>
-          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default ResetPassword;

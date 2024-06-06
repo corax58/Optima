@@ -10,8 +10,11 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, error, isLoading } = useLogin();
-  const { user } = useAuthContext();
-  const navigator = useNavigate();
+
+  const user = localStorage.getItem("user");
+  if (user) {
+    return <Navigate to={"/"} />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,11 +29,6 @@ const Login = () => {
       setVisible("password");
     }
   };
-
-  if (user) {
-    console.log(user);
-    return <Navigate to={"/"} />;
-  }
 
   return (
     <div className="h-screen w-screen items-center flex">
@@ -66,6 +64,9 @@ const Login = () => {
               >
                 {Visible == "text" ? <FaRegEye /> : <FaRegEyeSlash />}
               </div>
+            </div>
+            <div>
+              <Link to={"/forgot-password"}>Forgot Password?</Link>
             </div>
             <div>
               {error && (

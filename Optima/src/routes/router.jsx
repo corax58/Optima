@@ -15,6 +15,9 @@ import JoinedProjectsPage from "./pages/projects/JoinedProjectsPage";
 import EmailSent from "./pages/EmailSent";
 import VerifyEmail from "./pages/VerifyEmail";
 import Experiment from "./pages/Experiment";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +27,18 @@ const router = createBrowserRouter([
   {
     path: "/verify-email",
     element: <VerifyEmail />,
+  },
+  {
+    path: "/exe",
+    element: <Experiment />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPassword />,
   },
 
   {
@@ -41,13 +56,17 @@ const router = createBrowserRouter([
   },
   {
     element: <PrivateRoutes />,
+    errorElement: <ErrorPage />,
     children: [
       {
         element: <NavLayout />,
+        errorElement: <ErrorPage />,
+
         children: [
           {
             path: "/",
             element: <HomePage />,
+            errorElement: <ErrorPage />,
           },
           {
             path: "/myprojects",
