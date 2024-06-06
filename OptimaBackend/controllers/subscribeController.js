@@ -3,8 +3,8 @@ const prisma = require("../prisma/prismaClient");
 
 const apiKey = {
   PublicKey:
-    "BLH9JhcYK7KsY8cUxW5JLIoOBuBw7h0jiGJsM2OLlt1Zir_cJTLwFqT3sY_8CuNFk5e2OQJNfmCghPzlr-vxuZc",
-  PrivateKey: "d-KibqxzHtoXkyTk0m9EGbwxDfpxUxreLRNM1Uv6eVI",
+    "BFZg97OJ5GsuX1flh9yomVTzWm_fBraeWeSzunuzcYhKnubE-8rP7rWEp8uOoK3YWOMQdriZqf50caB06UE_wZ8",
+  PrivateKey: "KGH9Mi63H4ujhJ-A1aSV9p8QpqJOdq90UmdavqUMgDk",
 };
 
 // Public Key:

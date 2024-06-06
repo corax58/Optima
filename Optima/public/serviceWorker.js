@@ -31,17 +31,31 @@ self.addEventListener("message", (event) => {
   }
 });
 
-self.addEventListener("activate", async (e) => {
-  console.log("Service worker activated", e);
-  console.log(" some hting 1 ");
-  console.log(userId);
-  const applicationServerKey = urlBase64ToUint8Array(
-    "BLH9JhcYK7KsY8cUxW5JLIoOBuBw7h0jiGJsM2OLlt1Zir_cJTLwFqT3sY_8CuNFk5e2OQJNfmCghPzlr-vxuZc"
+function timeout(ms, errorMessage = "time out") {
+  return new Promise((_, reject) =>
+    setTimeout(() => reject(new Error(errorMessage)), ms)
   );
+}
+function withTimeOut(promise, ms) {
+  return Promise.race([promise, timeout(ms)]);
+}
+
+self.addEventListener("activate", async (e) => {
+  const applicationServerKey = urlBase64ToUint8Array(
+    "BFZg97OJ5GsuX1flh9yomVTzWm_fBraeWeSzunuzcYhKnubE-8rP7rWEp8uOoK3YWOMQdriZqf50caB06UE_wZ8"
+  );
+
   const subscription = self.registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey,
   });
+
+  withTimeOut(subscription, 7000)
+    .then((data) => {
+      console.log("data", data);
+    })
+    .catch((error) => console.log("Error: ", error.message));
+
   console.table({ subscription, userId });
   const response = await saveSubscription(subscription, userId);
   console.log(response);

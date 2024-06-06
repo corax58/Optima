@@ -16,7 +16,6 @@ const requestNotificationPermission = async () => {
 };
 
 const registerServiceWorker = async () => {
-  console.log("1");
   const registration = await navigator.serviceWorker.register(
     "/serviceWorker.js"
   );
@@ -29,6 +28,13 @@ const registerServiceWorker = async () => {
         if (this.state === "activated") resolve();
       });
     });
+
+  const userr = localStorage.getItem("user");
+  const userrId = userr ? JSON.parse(userr).userId : null;
+  if (userrId && registration.active) {
+    // Send userId to the service worker
+    registration.active.postMessage({ type: "SET_USER_ID", userrId });
+  }
 
   if (registration.installing) {
     await serviceWorkerStateChange(registration.installing);
@@ -45,6 +51,7 @@ const registerServiceWorker = async () => {
     registration.active.postMessage({ type: "SET_USER_ID", userId });
   }
   console.log("4");
+
   return registration;
 };
 
