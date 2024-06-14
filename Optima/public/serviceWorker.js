@@ -45,16 +45,16 @@ self.addEventListener("activate", async (e) => {
     "BFZg97OJ5GsuX1flh9yomVTzWm_fBraeWeSzunuzcYhKnubE-8rP7rWEp8uOoK3YWOMQdriZqf50caB06UE_wZ8"
   );
 
-  const subscription = self.registration.pushManager.subscribe({
+  const subscription = await self.registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey,
   });
 
-  withTimeOut(subscription, 7000)
-    .then((data) => {
-      console.log("data", data);
-    })
-    .catch((error) => console.log("Error: ", error.message));
+  // withTimeOut(subscription, 7000)
+  //   .then((data) => {
+  //     console.log("data", data);
+  //   })
+  //   .catch((error) => console.log("Error: ", error.message));
 
   console.table({ subscription, userId });
   const response = await saveSubscription(subscription, userId);

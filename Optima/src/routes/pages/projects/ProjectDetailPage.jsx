@@ -117,9 +117,7 @@ const ProjectDetailPage = () => {
               type="submit"
               disabled={isDisabled}
               className=" btn btn-sm m-3 "
-              onClick={() =>
-                document.getElementById(`add_${data.projectId}`).showModal()
-              }
+              onClick={() => document.getElementById(`add_user`).showModal()}
             >
               Send Invitation
             </button>
@@ -127,7 +125,7 @@ const ProjectDetailPage = () => {
             <></>
           )}
           <div>
-            <dialog id={`add_${data.projectId}`} className="modal">
+            <dialog id={`add_user`} className="modal">
               <div className="modal-box ">
                 <form method="dialog">
                   {/* if there is a button in form, it will close the modal */}

@@ -235,7 +235,7 @@ const getMembers = async (req, res) => {
 const addUser = async (req, res) => {
   const { projectId } = req.params;
   const { userEmail } = req.body;
-  console.log(userEmail);
+  console.log({ userEmail, projectId });
   try {
     const projectExist = await prisma.project.findFirst({
       where: {
