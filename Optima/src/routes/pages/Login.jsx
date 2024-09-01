@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [Visible, setVisible] = useState("password");
-  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const { login, error, isLoading } = useLogin();
 
@@ -19,7 +19,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // await login(emailOrUserName, password);
-    await login(email, password).finally(() => {});
+    await login(userName, password).finally(() => {});
   };
 
   const handlePasswordVisible = () => {
@@ -40,10 +40,10 @@ const Login = () => {
             className="flex flex-col space-y-2 font-medium"
             onSubmit={handleSubmit}
           >
-            <label htmlFor="">Email</label>
+            <label htmlFor="">Username</label>
             <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
               type="text"
               className="input input-bordered"
             />
@@ -65,9 +65,7 @@ const Login = () => {
                 {Visible == "text" ? <FaRegEye /> : <FaRegEyeSlash />}
               </div>
             </div>
-            <div>
-              <Link to={"/forgot-password"}>Forgot Password?</Link>
-            </div>
+
             <div>
               {error && (
                 <div role="alert" className="alert alert-warning p-3">

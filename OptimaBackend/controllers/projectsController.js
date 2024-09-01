@@ -72,7 +72,7 @@ const getProject = async (req, res) => {
                   include: {
                     member: {
                       select: {
-                        email: true,
+                        userName: true,
                         userId: true,
                       },
                     },
@@ -234,8 +234,8 @@ const getMembers = async (req, res) => {
 
 const addUser = async (req, res) => {
   const { projectId } = req.params;
-  const { userEmail } = req.body;
-  console.log({ userEmail, projectId });
+  const { userName } = req.body;
+  console.log({ userName, projectId });
   try {
     const projectExist = await prisma.project.findFirst({
       where: {
@@ -247,11 +247,11 @@ const addUser = async (req, res) => {
     }
     const user = await prisma.user.findFirst({
       where: {
-        email: userEmail,
+        userName: userName,
       },
     });
     if (!user) {
-      throw Error("there is no user with that email");
+      throw Error("there is no user with that User Name");
     }
     const alreadyMember = await prisma.projectMember.findFirst({
       where: {

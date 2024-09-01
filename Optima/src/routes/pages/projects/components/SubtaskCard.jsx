@@ -67,7 +67,7 @@ const SubtaskCard = ({ Subtask, project, isDisabled }) => {
           <div className="flex flex-col w-full  items-center  ">
             {Subtask.AssignedSubtask.map((member, index) => (
               <div className="w-max bg-base-100 border-2 rounded-full px-2 group space-x-2 hover:bg-base-300 flex cursor-pointer ">
-                <span className="">{member.member.member.email}</span>
+                <span className="">{member.member.member.userName}</span>
                 <button
                   className={
                     "bg-error text-error-content p-1 rounded-full scale-0 group-hover:scale-100 transition-all" +
@@ -108,7 +108,7 @@ const SubtaskCard = ({ Subtask, project, isDisabled }) => {
                     });
                   }}
                 >
-                  {member.member.email}
+                  {member.member.userName}
                 </li>
               ))}
             </ul>

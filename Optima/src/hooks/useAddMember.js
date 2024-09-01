@@ -5,9 +5,9 @@ const useAddMember = ({ onAdd, projectId }) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ email }) =>
+    mutationFn: ({ userName }) =>
       apiClient
-        .post(`/member/${projectId}`, { userEmail: email })
+        .post(`/member/${projectId}`, { userName: userName })
         .then((res) => res.data),
     onSuccess: () => {
       onAdd();

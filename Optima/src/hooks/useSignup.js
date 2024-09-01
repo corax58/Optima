@@ -8,20 +8,20 @@ export const useSignup = () => {
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
   const navigator = useNavigate();
-  const signup = async (email, password) => {
+  const signup = async (userName, password) => {
     setIsLoading(true);
     setError(null);
 
     axios
       .post(import.meta.env.VITE_SERVER_API_URL + "user/signup", {
-        email,
+        userName,
         password,
       })
       .then((res) => {
         setIsLoading(false);
-        // localStorage.setItem('user',JSON.stringify(res.data))
-        // dispatch({type:'login', payload:res.data})
-        navigator("/email-sent");
+        localStorage.setItem("user", JSON.stringify(res.data));
+        dispatch({ type: "login", payload: res.data });
+        navigator("/");
       })
       .catch((error) => {
         setIsLoading(false);

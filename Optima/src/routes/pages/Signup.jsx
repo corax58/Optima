@@ -75,7 +75,8 @@ export function checkPasswordStrength(password) {
 
 const Signup = () => {
   const [Visible, setVisible] = useState("password");
-  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userNameError, setUserNameError] = useState();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState();
@@ -83,8 +84,30 @@ const Signup = () => {
   const { signup, error, isLoading } = useSignup();
   const { user } = useAuthContext();
 
+  function validateUsername(username) {
+    // Check if the username length is between 3 and 16 characters
+    if (username.length < 3 || username.length > 16) {
+      return "Username must be 3-16 characters long.";
+    }
+
+    // Regular expression to validate the username
+    const regex = /^(?!.*[-_]{2})[a-zA-Z0-9]([a-zA-Z0-9_-]{1,14})[a-zA-Z0-9]$/;
+
+    // Test the username against the regex
+    if (!regex.test(username)) {
+      return "Username can only contain alphanumeric characters.";
+    }
+
+    return false;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (validateUsername(userName)) {
+      setUserNameError(validateUsername(userName));
+      return;
+    }
     if (password !== confirmPassword) {
       setPasswordError("Passwords do not match");
       return;
@@ -93,7 +116,7 @@ const Signup = () => {
       setPasswordError("Password is too weak");
       return;
     }
-    await signup(email, password);
+    await signup(userName, password);
   };
 
   const handlePasswordVisible = () => {
@@ -121,14 +144,17 @@ const Signup = () => {
             className="flex flex-col space-y-2 font-medium"
             onSubmit={handleSubmit}
           >
-            <label htmlFor="">Email</label>
+            <label htmlFor="">Username</label>
             <input
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              type="text"
               className="input input-bordered"
             />
+            {userNameError && (
+              <div className="text-sm text-red-500">{userNameError}</div>
+            )}
             <label htmlFor="password">Password</label>
             <div className="flex">
               <input

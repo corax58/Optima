@@ -41,7 +41,7 @@ const NabBar = () => {
           className="bg-base-100 rounded-lg p-2 border"
         />
         <div className=" border p-1 rounded-md bg-base-100 font-medium">
-          <span>{user.email}</span>
+          <span>{user.userName}</span>
         </div>
         <div className="flex flex-col bg-base-100 border rounded-md ">
           <Link to={"/"} className="nav-element">

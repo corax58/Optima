@@ -35,7 +35,7 @@ const InvitesListItem = ({ Invite }) => {
         <div className="">{Invite.project.projectName}</div>
         <div>
           <span>From: </span>{" "}
-          <span className=" font-normal">{Invite.project.admin.email}</span>
+          <span className=" font-normal">{Invite.project.admin.userName}</span>
         </div>
       </div>
       <dialog id={`Invite_${Invite.id}`} className="modal">
@@ -62,7 +62,7 @@ const InvitesListItem = ({ Invite }) => {
                 </tr>
                 <tr>
                   <th>Admin</th>
-                  <td>{Invite.project.admin.email}</td>
+                  <td>{Invite.project.admin.userName}</td>
                 </tr>
                 <tr>
                   <th>Start Date </th>

@@ -4,23 +4,13 @@
 
 Table User {
   userId String [pk]
-  email String [unique, not null]
+  userName String [unique, not null]
   hashedPassword String [not null]
   Habits Habit [not null]
   Projects Project [not null]
   ProjectMember ProjectMember [not null]
   ProjecctInvites ProjecctInvites [not null]
   NotificationSubcription NotificationSubcription [not null]
-  emailVerified Boolean [not null, default: false]
-  VerificationToken String
-  ForgotPassword ForgotPassword [not null]
-}
-
-Table ForgotPassword {
-  id Int [pk, increment]
-  verificationToken String [not null]
-  user User [not null]
-  userUserId String [not null]
 }
 
 Table Habit {
@@ -35,7 +25,6 @@ Table Habit {
   user User [not null]
   userId String [not null]
   createdAt DateTime [default: `now()`, not null]
-  visibility String [not null]
 }
 
 Table HabitEntry {
@@ -104,8 +93,6 @@ Table NotificationSubcription {
   user User [not null]
   userUserId String [not null]
 }
-
-Ref: ForgotPassword.userUserId > User.userId [delete: Cascade]
 
 Ref: Habit.userId > User.userId [delete: Cascade]
 
