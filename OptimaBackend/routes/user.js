@@ -1,13 +1,8 @@
 const express = require("express");
 
 //import controllers
-const {
-  loginUser,
-  signupUser,
-  verifyEmail,
-  forgotPassword,
-  resetPassword,
-} = require("../controllers/userController");
+const { loginUser, signupUser, verifyEmail, forgotPassword, resetPassword } =
+  require("../controllers/userController").default;
 
 const router = express.Router();
 
@@ -18,10 +13,10 @@ router.post("/login", loginUser);
 router.post("/signup", signupUser);
 
 //email verification router
-router.get("/verify-email", verifyEmail);
+// router.get("/verify-email", verifyEmail);
 
-router.post("/forgot-password", forgotPassword);
+// router.post("/forgot-password", forgotPassword);
 
-router.post("/reset-password", resetPassword);
+// router.post("/reset-password", resetPassword);
 
 module.exports = router;

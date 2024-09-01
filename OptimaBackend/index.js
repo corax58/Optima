@@ -2,7 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const prisma = require("./prisma/prismaClient");
+const newLocal_1 = "./prisma/prismaClient";
+const prisma = require(newLocal_1);
 const cron = require("node-cron");
 
 //express app
@@ -19,7 +20,8 @@ const memberRouter = require("./routes/member");
 const assignRouter = require("./routes/assign");
 const invitesRouter = require("./routes/invites");
 const subscribeRouter = require("./routes/subscribe");
-const { sendNotification } = require("./controllers/subscribeController");
+const newLocal = "./controllers/subscribeController";
+const sendNotification = require(newLocal);
 
 async function main() {
   //middlewares

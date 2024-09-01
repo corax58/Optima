@@ -7,12 +7,6 @@ const apiKey = {
   PrivateKey: "KGH9Mi63H4ujhJ-A1aSV9p8QpqJOdq90UmdavqUMgDk",
 };
 
-// Public Key:
-// BLH9JhcYK7KsY8cUxW5JLIoOBuBw7h0jiGJsM2OLlt1Zir_cJTLwFqT3sY_8CuNFk5e2OQJNfmCghPzlr-vxuZc
-
-// Private Key:
-// d-KibqxzHtoXkyTk0m9EGbwxDfpxUxreLRNM1Uv6eVI
-
 webpush.setVapidDetails(
   "mailto:abubekera87@gmail.com",
   apiKey.PublicKey,
@@ -62,10 +56,6 @@ const sendNotification = async ({ userId, message }) => {
       },
     });
 
-    // console.log({
-    //   subs: subscription.subscription,
-    //   userId,
-    // });
     if (!subscription) {
       return;
     } else {

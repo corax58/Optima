@@ -1,4 +1,5 @@
-const prisma = require("../prisma/prismaClient");
+const newLocal = "../prisma/prismaClient";
+const prisma = require(newLocal);
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -83,7 +84,7 @@ const loginUser = async (req, res) => {
 };
 
 const signupUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { user, password } = req.body;
 
   try {
     if (!email || !password) {

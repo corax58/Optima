@@ -245,11 +245,13 @@ const addUser = async (req, res) => {
     if (!projectExist) {
       throw Error("Project doesnt exist");
     }
+
     const user = await prisma.user.findFirst({
       where: {
         email: userEmail,
       },
     });
+
     if (!user) {
       throw Error("there is no user with that email");
     }
