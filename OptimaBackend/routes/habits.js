@@ -7,12 +7,9 @@ const {
   createHabit,
   getHabit,
   deleteHabit,
-  getPublicHabits,
 } = require("../controllers/habitsController");
 
 //habits
-router.post("/public", getPublicHabits);
-
 router.get("/:userId/:habitId", getHabit);
 
 router.get("/:userId", getAllHabits);

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import useAddMember from "../../../../hooks/useAddMember";
-import useFetchPublicHabits from "../../../../hooks/useFetchPublicHabits";
+import useFetchUsers from "../../../../hooks/useFetchUsers";
 import ErrorElement from "../../../../components/ErrorElement";
 import UserList from "./UserList";
 
 const SendInvitation = ({ projectId }) => {
-  const [userEmail, setUserEmail] = useState("");
-  const search = useFetchPublicHabits();
+  const [userName, setUserName] = useState("");
+  const search = useFetchUsers();
 
   const handleSeach = (e) => {
     e.preventDefault();
-    search.mutate(userEmail);
+    search.mutate(userName);
   };
 
   return (
@@ -19,11 +19,10 @@ const SendInvitation = ({ projectId }) => {
         <form action="" onSubmit={handleSeach} className="flex space-x-3 ">
           <input
             required
-            placeholder="Enter Email"
+            placeholder="Enter user name"
             className="input input-sm input-bordered"
-            type="email"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
           />
           <button className="btn btn-sm " type="submit">
             Search

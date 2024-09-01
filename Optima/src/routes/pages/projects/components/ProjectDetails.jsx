@@ -48,7 +48,7 @@ const ProjectDetails = ({ data, isDisabled }) => {
         </tr>
         <tr>
           <th>Admin</th>
-          <td>{data.admin.email}</td>
+          <td>{data.admin.userName}</td>
         </tr>
         <tr>
           <th>Start Date</th>
@@ -80,7 +80,7 @@ const ProjectDetails = ({ data, isDisabled }) => {
                     <tr>
                       <td>
                         <div className="p-1 flex space-x-1   hover:bg-base-300 bg-base-200 group transition-all  rounded-md">
-                          <span> {member.member.email}</span>
+                          <span> {member.member.userName}</span>
 
                           <button
                             disabled={

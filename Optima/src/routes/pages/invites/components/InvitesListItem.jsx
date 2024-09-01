@@ -28,14 +28,14 @@ const InvitesListItem = ({ Invite }) => {
           document.getElementById(`Invite_${Invite.id}`).showModal()
         }
         className={
-          "flex w-full p-2 pl-5 font-medium justify-between border-b border-primary-400  cursor-pointer items-center h-14 hover:text-lg hover:font-semibold transition-all hover:underline " +
+          "flex w-full p-2 pl-5 font-medium  justify-between border-b  border-primary-content  cursor-pointer items-center h-14 hover:text-lg hover:font-semibold transition-all hover:underline " +
           bgState
         }
       >
         <div className="">{Invite.project.projectName}</div>
         <div>
           <span>From: </span>{" "}
-          <span className=" font-normal">{Invite.project.admin.email}</span>
+          <span className=" font-normal">{Invite.project.admin.userName}</span>
         </div>
       </div>
       <dialog id={`Invite_${Invite.id}`} className="modal">
@@ -62,7 +62,7 @@ const InvitesListItem = ({ Invite }) => {
                 </tr>
                 <tr>
                   <th>Admin</th>
-                  <td>{Invite.project.admin.email}</td>
+                  <td>{Invite.project.admin.userName}</td>
                 </tr>
                 <tr>
                   <th>Start Date </th>
