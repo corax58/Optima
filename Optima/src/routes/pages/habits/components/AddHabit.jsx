@@ -19,7 +19,6 @@ const AddHabit = () => {
   const [Unit, setUnit] = useState("");
   const [time, setTime] = useState("00:00");
   const [nameError, setNameError] = useState();
-  const [visibility, setVisibility] = useState("public");
 
   const onCreate = () => {
     setHabitDescription("");
@@ -54,7 +53,6 @@ const AddHabit = () => {
       unit: Unit,
       remindMe: remindMe,
       remindTime: time,
-      visibility,
     });
   };
 
@@ -126,39 +124,7 @@ const AddHabit = () => {
           id="description"
           className="textarea textarea-bordered"
         ></textarea>
-        <div>
-          <fieldset
-            required
-            className="space-y-2 my-2"
-            onChange={(e) => setVisibility(e.target.value)}
-            value={visibility}
-          >
-            <legend>Visibility</legend>
-            <div className=" flex items-center space-x-7 ">
-              <div className=" flex items-center space-x-2">
-                <input
-                  type="radio"
-                  name="visibility"
-                  id="public"
-                  className=" radio"
-                  value={"public"}
-                  checked={visibility == "public"}
-                />
-                <label htmlFor="public">Pulic</label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="radio"
-                  name="visibility"
-                  id="private"
-                  className="radio"
-                  value={"private"}
-                />
-                <label htmlFor="private">Private</label>
-              </div>
-            </div>
-          </fieldset>
-        </div>
+
         <div className="space-x-2 flex items-center">
           <input
             type="checkbox"

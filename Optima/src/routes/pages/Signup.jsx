@@ -133,10 +133,10 @@ const Signup = () => {
   }
 
   return (
-    <div className="h-screen w-screen items-center flex">
-      <div className=" h-full md:h-3/4 w-96 shadow-2xl  rounded-xl mx-auto ">
+    <div className="h-screen w-screen  bg-gradient-to-r from-teal-600 via-accent to-sky-600 items-center flex">
+      <div className=" h-full md:h-3/4 w-96 shadow-2xl bg-slate-200 rounded-xl mx-auto ">
         <div className=" items-center flex  flex-col h-full justify-center space-y-4">
-          <h1 className=" text-4xl mb-2 transition-all duration-900 ease-in-out">
+          <h1 className=" text-4xl font-semibold  mb-2 transition-all duration-900 ease-in-out">
             Create an Account
           </h1>
           <form
@@ -167,7 +167,7 @@ const Signup = () => {
                   setConfirmPassword(e.target.value);
                   setStrength(checkPasswordStrength(e.target.value));
                 }}
-                className="input input-bordered"
+                className="input input-bordered w-full"
               />
               <div
                 onClick={handlePasswordVisible}

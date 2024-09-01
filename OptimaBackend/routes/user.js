@@ -4,6 +4,7 @@ const express = require("express");
 const {
   loginUser,
   signupUser,
+  searchUser,
   verifyEmail,
   forgotPassword,
   resetPassword,
@@ -16,5 +17,7 @@ router.post("/login", loginUser);
 
 //singup router
 router.post("/signup", signupUser);
+
+router.post("/search", searchUser);
 
 module.exports = router;

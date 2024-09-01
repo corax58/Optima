@@ -18,7 +18,7 @@ const UserList = ({ data, projectId }) => {
   };
 
   console.log(addMember);
-  if (data) {
+  if (data.userName) {
     return (
       <div>
         {" "}
@@ -31,18 +31,10 @@ const UserList = ({ data, projectId }) => {
             Send Invitation
           </button>
         </div>
-        <div className=" bg-base-300 h-64">
+        <div className=" bg-base-300 p-2 h-64">
           {addMember.error && (
             <ErrorElement message={addMember.error.response.data.error} />
           )}
-
-          <ul className=" h-full  overflow-y-scroll s">
-            {data.Habits.map((habit) => (
-              <li className="shadow-md">
-                <UserListItem habit={habit} />
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     );

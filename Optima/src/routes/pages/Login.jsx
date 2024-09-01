@@ -31,8 +31,8 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen w-screen items-center flex">
-      <div className=" h-3/4 w-96  shadow-2xl  rounded-xl mx-auto ">
+    <div className="h-screen w-screen items-center bg-gradient-to-r from-teal-600 via-accent to-sky-600 flex">
+      <div className=" h-3/4 w-96  shadow-2xl bg-slate-200 rounded-xl mx-auto ">
         <div className=" items-center flex  flex-col h-full justify-center space-y-4">
           <h1 className="text-4xl mb-2">Welcome Back</h1>
           <form

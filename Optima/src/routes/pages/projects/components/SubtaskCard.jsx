@@ -10,7 +10,7 @@ import { useAuthContext } from "../../../../hooks/useAuthContext";
 
 const SubtaskCard = ({ Subtask, project, isDisabled }) => {
   const { state } = useAuthContext();
-  console.log(state.user.userId);
+  console.log(state, " this is the context");
   const [canChangeStatu, setCanChangeStatus] = useState(false);
 
   useEffect(() => {
@@ -42,14 +42,17 @@ const SubtaskCard = ({ Subtask, project, isDisabled }) => {
       <div className="break-inside-avoid-column mb-5	 border border-base-300 shadow  rounded-lg  w-60 flex flex-col space-y-3  bg-base-200 h">
         <div className="flex justify-between space-x-5 bg-base-300  border-b-2 border-neutral-content p-2 px-1 rounded-t-md ">
           <button
-            className=" hover:bg-error group  rounded-full border-2 border-error px-2 bg-base-100"
+            disabled={isDisabled}
+            className={
+              isDisabled
+                ? " group  rounded-full border-2 border-base px-2 bg-base-100 "
+                : ` hover:bg-error group text-error hover:text-error-content  rounded-full border-2 border-error px-2 bg-base-100`
+            }
             onClick={() => {
               removeSubtask.mutate({ subtaskId: Subtask.subTaskId });
             }}
           >
-            <span className="text-error group-hover:text-error-content font-medium">
-              Delete
-            </span>
+            <span className=" font-medium">Delete</span>
           </button>
           <select
             disabled={!canChangeStatu}

@@ -80,7 +80,7 @@ const getInvites = async (req, res) => {
         include: {
           admin: {
             select: {
-              userName,
+              userName: true,
             },
           },
         },

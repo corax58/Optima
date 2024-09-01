@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import useAddMember from "../../../../hooks/useAddMember";
-import useFetchPublicHabits from "../../../../hooks/useFetchPublicHabits";
+import useFetchUsers from "../../../../hooks/useFetchUsers";
 import ErrorElement from "../../../../components/ErrorElement";
 import UserList from "./UserList";
 
 const SendInvitation = ({ projectId }) => {
   const [userName, setUserName] = useState("");
-  const search = useFetchPublicHabits();
+  const search = useFetchUsers();
 
   const handleSeach = (e) => {
     e.preventDefault();
