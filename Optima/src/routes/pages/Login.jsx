@@ -53,7 +53,7 @@ const Login = () => {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
-                className="input input-bordered"
+                className="input input-bordered w-full"
               />
 
               <div
