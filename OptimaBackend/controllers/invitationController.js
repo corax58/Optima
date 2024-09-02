@@ -35,7 +35,6 @@ const acceptInvite = async (req, res) => {
   } catch (e) {
     res.status(404).json({ error: e.message });
   }
-  //todo
 };
 const declineInvite = async (req, res) => {
   const { inviteId } = req.params;
@@ -60,10 +59,8 @@ const declineInvite = async (req, res) => {
     });
     res.status(200).json({ message: "declined" });
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
-  //todo
 };
 
 const getInvites = async (req, res) => {

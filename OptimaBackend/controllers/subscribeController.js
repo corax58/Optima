@@ -16,7 +16,6 @@ webpush.setVapidDetails(
 const subscribePush = async (req, res) => {
   const { subscription, userId } = req.body;
 
-  console.log(req.body);
   try {
     const subsctiptionExist = await prisma.notificationSubcription.findFirst({
       where: {
@@ -41,9 +40,7 @@ const subscribePush = async (req, res) => {
         },
       });
     }
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 
   res.send({ msg: "hello" });
 };
@@ -61,9 +58,7 @@ const sendNotification = async ({ userId, message }) => {
     } else {
       webpush.sendNotification(subscription.subscription, message);
     }
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 module.exports = {

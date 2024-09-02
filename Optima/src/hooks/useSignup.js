@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useAuthContext } from "./useAuthContext";
 import axios from "axios";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "./useAuthContext";
 
 export const useSignup = () => {
   const [error, setError] = useState(null);

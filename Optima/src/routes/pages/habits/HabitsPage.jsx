@@ -1,8 +1,7 @@
 import React from "react";
-import HabitsNavbar from "./components/HabitsNavbar";
-import HabitsList from "./components/HabitList";
-import { BiPlusCircle } from "react-icons/bi";
 import GridLines from "react-gridlines";
+import HabitsList from "./components/HabitList";
+import HabitsNavbar from "./components/HabitsNavbar";
 
 const HabitsPage = () => {
   return (

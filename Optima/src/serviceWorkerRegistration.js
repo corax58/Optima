@@ -1,5 +1,4 @@
 // src/serviceWorkerRegistration.js
-import apiClient from "./services/apiClient";
 
 const urlBase64ToUint8Array = (base64String) => {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -17,15 +16,10 @@ const urlBase64ToUint8Array = (base64String) => {
 export const register = async () => {
   // Check if service workers are supported
 
-  console.log("hellllo");
   if ("serviceWorker" in navigator && "PushManager" in window) {
     navigator.serviceWorker
       .register("/serviceWorker.js")
       .then((registration) => {
-        console.log(
-          "Service Worker registered with scope:",
-          registration.scope
-        );
         return registration.pushManager
           .getSubscription()
           .then(async (subscription) => {
@@ -44,7 +38,6 @@ export const register = async () => {
           });
       })
       .then((subscription) => {
-        console.log("Push subscription:", subscription);
         // Send the subscription to your server
         fetch(`${import.meta.env.VITE_SERVER_API_URL}subscribe`, {
           method: "POST",
@@ -55,7 +48,7 @@ export const register = async () => {
         });
       })
       .catch((error) => {
-        console.error("Service Worker registration failed:", error);
+        console.log(error);
       });
   }
 };

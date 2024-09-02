@@ -6,9 +6,6 @@ import GridLines from "react-gridlines";
 
 const JoinedProjectsPage = () => {
   const { data, error, isLoading } = useFetchProjects();
-  if (data) {
-    console.log(data);
-  }
 
   return (
     <div className="h-screen">

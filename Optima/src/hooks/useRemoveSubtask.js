@@ -8,7 +8,6 @@ const useRemoveSubtask = ({ projectId }) => {
       apiClient
         .delete(`/subtask/${projectId}/${subtask.subtaskId}`)
         .then((res) => res.data);
-      console.log(assign);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [`${projectId}`] });

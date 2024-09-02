@@ -1,9 +1,7 @@
-import React, { useRef, useState } from "react";
-import { TbReportAnalytics } from "react-icons/tb";
+import React from "react";
 import { BiPlusCircle } from "react-icons/bi";
-import AddHabit from "./AddHabit";
 import { IoMenuOutline } from "react-icons/io5";
-import bgImage from "../.././../../assets/Images/bgPattern.jpg";
+import AddHabit from "./AddHabit";
 const HabitsNavbar = () => {
   return (
     <div className=" sticky top-0  h-1/5 ">

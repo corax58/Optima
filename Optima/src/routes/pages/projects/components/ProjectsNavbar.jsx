@@ -1,6 +1,5 @@
 import React from "react";
 import { IoMenuOutline } from "react-icons/io5";
-import { MdOutlineViewTimeline } from "react-icons/md";
 import AddProject from "./AddProject";
 
 const ProjectsNavbar = () => {

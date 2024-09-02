@@ -42,7 +42,12 @@ const Calander = () => {
     events = reformatReport(data);
   }
   if (isLoading)
-    return <span className="loading loading-ring loading-lg mx-auto"></span>;
+    return (
+      <div className=" w-full flex justify-center pt-10">
+        {" "}
+        <span className="loading loading-ring loading-lg mx-auto"></span>{" "}
+      </div>
+    );
   if (error)
     <div role="alert" className="alert alert-error">
       <svg

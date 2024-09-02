@@ -1,5 +1,4 @@
 import React from "react";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 
 const checkPermissions = async () => {
@@ -19,7 +18,6 @@ const registerServiceWorker = async () => {
   const registration = await navigator.serviceWorker.register(
     "/serviceWorker.js"
   );
-  console.log("2");
 
   // Wait for the service worker to be activated
   const serviceWorkerStateChange = (serviceWorker) =>
@@ -42,7 +40,6 @@ const registerServiceWorker = async () => {
     await serviceWorkerStateChange(registration.waiting);
   }
 
-  console.log("3");
   // Retrieve userId from localStorage safely
   const user = localStorage.getItem("user");
   const userId = user ? JSON.parse(user).userId : null;
@@ -50,7 +47,6 @@ const registerServiceWorker = async () => {
     // Send userId to the service worker
     registration.active.postMessage({ type: "SET_USER_ID", userId });
   }
-  console.log("4");
 
   return registration;
 };
@@ -58,21 +54,15 @@ const registerServiceWorker = async () => {
 const Notif = async () => {
   try {
     await checkPermissions();
-    console.log("Service worker permission is supported");
     await requestNotificationPermission();
-    console.log("Notification permission allowed");
     await registerServiceWorker();
-    console.log("Service worker registered");
-  } catch (error) {
-    console.error("Error during initialization:", error);
-  }
+  } catch (error) {}
 };
 
 const PrivateRoutes = () => {
   const user = localStorage.getItem("user");
   if (!user) return <Navigate to={"/login"} />;
   if (user) {
-    console.log("starting the notif fun");
     Notif();
   }
   return <Outlet />;

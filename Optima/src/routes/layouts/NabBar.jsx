@@ -1,20 +1,20 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/Images/optimaLogo.png";
 import { CiViewList } from "react-icons/ci";
 import { FaProjectDiagram } from "react-icons/fa";
+import { FaUser, FaUserGroup } from "react-icons/fa6";
+import { GoHome } from "react-icons/go";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { RiTimelineView } from "react-icons/ri";
 import { SlEnvolopeLetter } from "react-icons/sl";
-import { GoHome } from "react-icons/go";
-import { FaUser, FaUserGroup } from "react-icons/fa6";
-import { useLogout } from "../../hooks/useLogout";
 import { TbLogout2 } from "react-icons/tb";
-import useFetchInvites from "../../hooks/useFetchInvites";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../../assets/Images/optimaLogo.png";
 import ThemeSwitcher from "../../components/ThemeSwitch";
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import useFetchInvites from "../../hooks/useFetchInvites";
+import { useLogout } from "../../hooks/useLogout";
 
 const NabBar = () => {
-  const { data, isLoading, error } = useFetchInvites();
+  const { data } = useFetchInvites();
   let newInvitations = 0;
   if (data) {
     newInvitations = data?.filter(

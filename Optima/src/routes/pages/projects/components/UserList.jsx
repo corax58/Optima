@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import UserListItem from "./UserListItem";
-import useAddMember from "../../../../hooks/useAddMember";
 import ErrorElement from "../../../../components/ErrorElement";
-import SuccessElement from "../../../../components/SuccessElement";
+import useAddMember from "../../../../hooks/useAddMember";
 
 const UserList = ({ data, projectId }) => {
   const [userName, setUserName] = useState("");
-  console.log(data);
   const onAdd = () => {
     setUserName("");
     document.getElementById(`add_user`).close();
@@ -17,7 +14,6 @@ const UserList = ({ data, projectId }) => {
     e.preventDefault();
   };
 
-  console.log(addMember);
   if (data.userName) {
     return (
       <div>

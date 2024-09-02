@@ -3,7 +3,6 @@ import useAcceptInvites from "../../../../hooks/useAcceptInvites";
 import useDeclineInvites from "../../../../hooks/useDeclineInvites";
 
 const InvitesListItem = ({ Invite }) => {
-  console.log(Invite);
   const onRes = () => {
     document.getElementById(`Invite_${Invite.id}`).close();
   };

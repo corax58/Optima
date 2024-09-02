@@ -7,9 +7,7 @@ export const useLogout = () => {
   const Logout = () => {
     dispatch({ type: "Logout" });
     localStorage.removeItem("user");
-    // clearNotificationsAndUnregisterServiceWorkers();
     navigator("/login");
-    // cleanNotifications();
   };
   return { Logout };
 };

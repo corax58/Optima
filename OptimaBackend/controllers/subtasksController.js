@@ -13,7 +13,6 @@ const getAllSubtasks = async (req, res) => {
 
     res.status(200).json(subtasks);
   } catch (e) {
-    console.log(e);
     res.status(404).json(e);
   }
 };
@@ -45,14 +44,12 @@ const createSubtask = async (req, res) => {
 
     res.status(200).json(subtask);
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
 };
 
 //delete a subtask
 const deleteSubtask = async (req, res) => {
-  console.log("stuuf");
   const { projectId, subtaskId } = req.params;
   try {
     const subtaskExist = await prisma.subTask.findFirst({
@@ -75,7 +72,6 @@ const deleteSubtask = async (req, res) => {
 
     res.status(200).json(subtask);
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
 };
@@ -107,7 +103,6 @@ const updateSubtask = async (req, res) => {
 
     res.status(200).json(subtask);
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
 };
@@ -115,7 +110,6 @@ const updateSubtask = async (req, res) => {
 // assign a user to a subtask
 const assignUser = async (req, res) => {
   const { projectMemberId, subtaskId } = req.body;
-  console.log(projectMemberId, subtaskId);
   try {
     const memberId = parseInt(projectMemberId);
     const subtask = parseInt(subtaskId);
@@ -156,7 +150,6 @@ const assignUser = async (req, res) => {
 
     res.status(200).json(assing);
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
 };
@@ -164,7 +157,6 @@ const assignUser = async (req, res) => {
 const removeFromSubtask = async (req, res) => {
   const { projectMemberId, subtaskId } = req.params;
 
-  console.log(projectMemberId, subtaskId);
   try {
     const memberId = parseInt(projectMemberId);
     const subtask = parseInt(subtaskId);
@@ -186,7 +178,6 @@ const removeFromSubtask = async (req, res) => {
 
     res.status(200).json(assing);
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
 };

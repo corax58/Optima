@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import useAssingSubtask from "../../../../hooks/useAssingSubtask";
-import { IoMdClose } from "react-icons/io";
-import useRemoveAssing from "../../../../hooks/useRemoveAssing";
-import useRemoveSubtask from "../../../../hooks/useRemoveSubtask";
 import SubtaskCard from "./SubtaskCard";
 
 const Subtasks = ({ project, isDisabled }) => {
@@ -20,8 +17,6 @@ const Subtasks = ({ project, isDisabled }) => {
       return subtask.status === "Compeleted";
     }
   });
-
-  console.log(filteredSubtasks);
 
   return (
     <div className="  ">

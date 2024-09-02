@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useLogin } from "../../hooks/useLogin";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { Link, Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useLogin } from "../../hooks/useLogin";
 
 const Login = () => {
   const [Visible, setVisible] = useState("password");

@@ -46,9 +46,7 @@ async function main() {
   });
 
   //Listening for requrests
-  app.listen(PORT, () => {
-    console.log(`Listening on PORT ${PORT}`);
-  });
+  app.listen(PORT, () => {});
 }
 
 main()
@@ -56,7 +54,6 @@ main()
     await prisma.$connect();
   })
   .catch(async (e) => {
-    console.log(e);
     await prisma.$disconnect();
     process.exit(1);
   });
@@ -138,7 +135,6 @@ cron.schedule("* * * * *", checkReminders);
 cron.schedule(
   "59 23 * * *",
   () => {
-    console.log("Running the cron job to create missing habit entries");
     createMissingHabitEntries().catch((error) => console.error(error));
   },
   {

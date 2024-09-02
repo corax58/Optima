@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useEditHabit } from "../../../../hooks/useEditHabit";
 
 function isWhitespaceOrNumbers(str) {
@@ -41,8 +41,6 @@ const EditHabit = ({ data }) => {
   };
 
   const handleSubmit = (e) => {
-    console.log();
-
     e.preventDefault();
     if (isWhitespaceOrNumbers(habitName)) {
       setNameError("Invalid habit name");
@@ -56,7 +54,6 @@ const EditHabit = ({ data }) => {
       remindMe: remindMe,
       remindTime: time,
     };
-    console.log(habit);
     editHabit.mutate({
       habitName: habitName,
       description: habitDescription,

@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { IoMenuOutline } from "react-icons/io5";
 import { useParams } from "react-router-dom";
-import useFetchProjectDetails from "../../../hooks/useFetchProjectDetails";
 import useCreateSubtask from "../../../hooks/useCreateSubtask";
-import Subtasks from "./components/Subtasks";
+import useFetchProjectDetails from "../../../hooks/useFetchProjectDetails";
 import ProjectDetails from "./components/ProjectDetails";
-import useAddMember from "../../../hooks/useAddMember";
-import ErrorElement from "../../../components/ErrorElement";
+import Subtasks from "./components/Subtasks";
 
-import DeleteProject from "./components/DeleteProject";
-import EditProject from "./components/EditProject";
 import { MdOutlineEdit } from "react-icons/md";
 import { PiPlus } from "react-icons/pi";
-import SuccessElement from "../../../components/SuccessElement";
+import DeleteProject from "./components/DeleteProject";
+import EditProject from "./components/EditProject";
 import SendInvitation from "./components/SendInvitation";
 
 const ProjectDetailPage = () => {
@@ -41,7 +38,6 @@ const ProjectDetailPage = () => {
   };
 
   if (data) {
-    console.log(data);
     if (data.admin.userId != user.userId) {
       isDisabled = true;
     }

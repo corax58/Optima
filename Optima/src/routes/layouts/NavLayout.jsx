@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
-import { IoMenuOutline } from "react-icons/io5";
+import { Outlet } from "react-router-dom";
 import NabBar from "./NabBar";
 
 const NavLayout = () => {

@@ -21,8 +21,6 @@ const count = (entries) => {
 };
 
 const UserListItem = ({ habit }) => {
-  console.log(calculateAverage(habit.HabitEntry));
-
   return (
     <div className="flex justify-between p-2 border-b border-neutral-content bg-base-200">
       <div>

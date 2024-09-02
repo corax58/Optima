@@ -91,7 +91,6 @@ const HabitsDetailsPage = () => {
       <div className=" flex justify-between  ">
         <table className="table w-max md:w-1/2 ">
           <tbody>
-            {" "}
             <tr>
               <th className="">Habit name: </th>
               <td className="">{data.habitName}</td>

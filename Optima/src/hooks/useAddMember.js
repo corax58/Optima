@@ -1,9 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import apiClient from "../services/apiClient";
 
 const useAddMember = ({ onAdd, projectId }) => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: ({ userName }) =>
       apiClient

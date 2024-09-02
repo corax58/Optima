@@ -1,7 +1,7 @@
 import React from "react";
-import useDeleteProject from "../../../../hooks/useDeleteProject";
-import { useNavigate, useParams } from "react-router-dom";
 import { RiDeleteBin2Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import useDeleteProject from "../../../../hooks/useDeleteProject";
 
 const DeleteProject = ({ projectId }) => {
   const navigator = useNavigate();

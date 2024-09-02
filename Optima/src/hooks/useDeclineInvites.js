@@ -3,7 +3,6 @@ import apiClient from "../services/apiClient";
 
 const useDeclineInvites = ({ onRes }) => {
   const queryClient = useQueryClient();
-  console.log("one");
   return useMutation({
     mutationFn: (id) =>
       apiClient.delete(`/invites/${id}`).then((res) => res.data),

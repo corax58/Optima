@@ -24,8 +24,6 @@ const AddProject = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(new Date());
-
     let startDate = "";
     if (projectStartDate != "") {
       startDate = projectStartDate + "T16:32:29.543Z";
@@ -36,11 +34,6 @@ const AddProject = () => {
     if (hasDeadline) {
       deadLine = projectDeadline + "T16:32:29.543Z";
     }
-
-    console.log({
-      startDate,
-      deadLine,
-    });
 
     addProject.mutate({
       projectName: projectName,

@@ -78,7 +78,6 @@ const signupUser = async (req, res) => {
       userId: user.userId,
     });
   } catch (error) {
-    console.log(error);
     res.status(404).json({ error: error.message });
   }
 };
@@ -97,7 +96,6 @@ const searchUser = async (req, res) => {
     res.status(200).json({ userName: user.userName });
   } catch (error) {
     res.status(404).json({ error: error.message });
-    console.log(error);
   }
 };
 

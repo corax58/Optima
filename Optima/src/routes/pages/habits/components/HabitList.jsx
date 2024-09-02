@@ -1,15 +1,10 @@
 import React from "react";
-// import HabitListItem from "./habitListItem";
 
 import useFetchHabit from "../../../../hooks/useFetchHabit";
 import HabitListElement from "./HabitListElement";
 
 const HabitsList = () => {
   const { data, error, isLoading } = useFetchHabit();
-
-  if (data) {
-    console.log(data);
-  }
 
   if (isLoading)
     return (

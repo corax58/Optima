@@ -5,7 +5,6 @@ const useRemoveMember = ({ projectId }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (memberId) => {
-      console.log(memberId);
       apiClient.delete(`/member/${memberId}`).then((res) => res.data);
     },
 

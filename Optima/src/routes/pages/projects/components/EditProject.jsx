@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useCreateProject } from "../../../../hooks/useCreateProject";
 import WarningElement from "../../../../components/WarningElement";
 import { useEditProject } from "../../../../hooks/useEditProject";
 
 const EditProject = ({ project }) => {
-  console.log(project);
   const [hasDeadline, setHasDeadline] = useState(project.hasDeadLine);
   const [projectName, setProjectName] = useState(project.projectName);
   const [projectDescription, setProjectDescription] = useState(
@@ -30,8 +28,6 @@ const EditProject = ({ project }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(new Date());
-
     let startDate = "";
     if (projectStartDate != "") {
       startDate = projectStartDate + "T16:32:29.543Z";
@@ -42,11 +38,6 @@ const EditProject = ({ project }) => {
     if (hasDeadline) {
       deadLine = projectDeadline + "T16:32:29.543Z";
     }
-
-    console.log({
-      startDate,
-      deadLine,
-    });
 
     editProject.mutate({
       projectName: projectName,

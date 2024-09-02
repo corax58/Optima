@@ -12,7 +12,6 @@ const urlBase64ToUint8Array = (base64String) => {
 };
 
 const saveSubscription = async (subscription, userId) => {
-  console.log("Sending subscription");
   const response = await fetch("http://localhost:4000/api/subscribe", {
     method: "POST",
     headers: {
@@ -50,15 +49,7 @@ self.addEventListener("activate", async (e) => {
     applicationServerKey,
   });
 
-  // withTimeOut(subscription, 7000)
-  //   .then((data) => {
-  //     console.log("data", data);
-  //   })
-  //   .catch((error) => console.log("Error: ", error.message));
-
-  console.table({ subscription, userId });
   const response = await saveSubscription(subscription, userId);
-  console.log(response);
 });
 
 self.addEventListener("push", (e) => {
@@ -66,20 +57,3 @@ self.addEventListener("push", (e) => {
     body: e.data.text(),
   });
 });
-
-// Uncomment and ensure notification click handling if needed
-// self.addEventListener("notificationclick", (e) => {
-//   e.notification.close();
-//   e.waitUntil(
-//     clients.matchAll({
-//       type: "window",
-//       includeUncontrolled: true,
-//     }).then((clientsArr) => {
-//       if (clientsArr.length > 0) {
-//         clientsArr[0].focus();
-//       } else {
-//         clients.openWindow("/");
-//       }
-//     })
-//   );
-// });

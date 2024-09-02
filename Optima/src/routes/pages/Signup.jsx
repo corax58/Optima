@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useSignup } from "../../hooks/useSignup";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { Link, Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useSignup } from "../../hooks/useSignup";
 
 export function checkPasswordStrength(password) {
   let strength = 0;
@@ -128,7 +127,6 @@ const Signup = () => {
   };
 
   if (user) {
-    console.log(user);
     return <Navigate to={"/"} />;
   }
 

@@ -1,46 +1,20 @@
 import { createBrowserRouter } from "react-router-dom";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import HomePage from "./pages/HomePage";
-import NonPrivateRoutes from "./layouts/NonPrivateRoutes";
 import NavLayout from "./layouts/NavLayout";
-import ProjectsPage from "./pages/projects/ProjectsPage";
-import HabitsPage from "./pages/habits/HabitsPage";
-import HabitsDetailsPage from "./pages/habits/HabitsDetailsPage";
-import ProjectDetailPage from "./pages/projects/ProjectDetailPage";
-import Invites from "./pages/invites/Invites";
+import NonPrivateRoutes from "./layouts/NonPrivateRoutes";
 import PrivateRoutes from "./layouts/PrivateRoutes";
-import TimeLinePage from "./pages/timeline/TimeLinePage";
-import JoinedProjectsPage from "./pages/projects/JoinedProjectsPage";
-import EmailSent from "./pages/EmailSent";
-import VerifyEmail from "./pages/VerifyEmail";
-import Experiment from "./pages/Experiment";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
 import ErrorPage from "./pages/ErrorPage";
+import HabitsDetailsPage from "./pages/habits/HabitsDetailsPage";
+import HabitsPage from "./pages/habits/HabitsPage";
+import HomePage from "./pages/HomePage";
+import Invites from "./pages/invites/Invites";
+import Login from "./pages/Login";
+import JoinedProjectsPage from "./pages/projects/JoinedProjectsPage";
+import ProjectDetailPage from "./pages/projects/ProjectDetailPage";
+import ProjectsPage from "./pages/projects/ProjectsPage";
+import Signup from "./pages/Signup";
+import TimeLinePage from "./pages/timeline/TimeLinePage";
 
 const router = createBrowserRouter([
-  {
-    path: "/email-sent",
-    element: <EmailSent />,
-  },
-  {
-    path: "/verify-email",
-    element: <VerifyEmail />,
-  },
-  {
-    path: "/exe",
-    element: <Experiment />,
-  },
-  {
-    path: "/forgot-password",
-    element: <ForgotPassword />,
-  },
-  {
-    path: "/reset-password",
-    element: <ResetPassword />,
-  },
-
   {
     element: <NonPrivateRoutes />,
     children: [

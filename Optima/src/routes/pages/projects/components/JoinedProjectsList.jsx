@@ -31,9 +31,7 @@ const JoinedProjectsList = () => {
       </div>
     );
   }
-  if (data) {
-    console.log(data);
-  }
+
   if (data) {
     return (
       <div className="">

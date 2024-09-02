@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import useAddMember from "../../../../hooks/useAddMember";
-import useFetchUsers from "../../../../hooks/useFetchUsers";
 import ErrorElement from "../../../../components/ErrorElement";
+import useFetchUsers from "../../../../hooks/useFetchUsers";
 import UserList from "./UserList";
 
 const SendInvitation = ({ projectId }) => {

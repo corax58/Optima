@@ -15,7 +15,6 @@ const getReport = async (req, res) => {
 
     res.status(200).json(projects);
   } catch (e) {
-    console.log(e);
     res.status(404).json(e);
   }
 };
@@ -44,7 +43,6 @@ const getAllProjects = async (req, res) => {
 
     res.status(200).json({ myProjects, memberOf });
   } catch (e) {
-    console.log(e);
     res.status(404).json(e);
   }
 };
@@ -90,7 +88,6 @@ const getProject = async (req, res) => {
     }
     res.status(200).json(project);
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
 };
@@ -99,10 +96,8 @@ const getProject = async (req, res) => {
 const createProject = async (req, res) => {
   const { userId } = req.params;
 
-  console.log(new Date());
   let { projectName, projectDescription, hasDeadLine, deadLine, startDate } =
     req.body;
-  console.log("creating project");
 
   if (deadLine == "") {
     deadLine = null;
@@ -133,19 +128,14 @@ const createProject = async (req, res) => {
     });
     res.status(200).json(project);
   } catch (err) {
-    console.log(err);
     res.status(404).json({ error: err.message });
   }
 };
 
 // update a project
 const updateProject = async (req, res) => {
-  console.log("update started");
   const { projectId } = req.params;
-  //   const { habitName, description, unit, remindMe } = req.body;
   let { projectName, projectDescription, deadLine, startDate } = req.body;
-
-  console.log({ projectName, projectDescription, deadLine, startDate });
 
   try {
     const projectExists = await prisma.project.findFirst({
@@ -175,10 +165,8 @@ const updateProject = async (req, res) => {
         startDate,
       },
     });
-    console.log(project);
     res.status(200).json(project);
   } catch (err) {
-    console.log(err);
     res.status(404).json({ error: err.message });
   }
 };
@@ -206,8 +194,6 @@ const deleteProject = async (req, res) => {
 
     res.status(200).json(project);
   } catch (e) {
-    console.log(e.message);
-
     res.status(404).json({ error: e.message });
   }
 };
@@ -225,7 +211,6 @@ const getMembers = async (req, res) => {
     });
     res.status(200).json(member);
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
 };
@@ -235,7 +220,6 @@ const getMembers = async (req, res) => {
 const addUser = async (req, res) => {
   const { projectId } = req.params;
   const { userName } = req.body;
-  console.log({ userName, projectId });
   try {
     const projectExist = await prisma.project.findFirst({
       where: {
@@ -293,7 +277,6 @@ const addUser = async (req, res) => {
 
     res.status(200).json({ message: "Invitation sent" });
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
 };
@@ -303,9 +286,6 @@ const addUser = async (req, res) => {
 const removeUser = async (req, res) => {
   const { memberId } = req.params;
 
-  console.log(req.params);
-  // const { userId } = req.body;
-  console.log(memberId);
   try {
     const memberExist = await prisma.projectMember.findFirst({
       where: {
@@ -322,7 +302,6 @@ const removeUser = async (req, res) => {
     });
     res.status(200).json(member);
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
 };

@@ -10,7 +10,6 @@ const useRemoveAssing = ({ projectId }) => {
         .then((res) => res.data);
     },
     onSettled: () => {
-      console.log("rrm");
       queryClient.invalidateQueries({
         queryKey: [`${projectId}`],
       });

@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { FiDelete } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 import useAssingSubtask from "../../../../hooks/useAssingSubtask";
+import { useAuthContext } from "../../../../hooks/useAuthContext";
 import useRemoveAssing from "../../../../hooks/useRemoveAssing";
 import useRemoveSubtask from "../../../../hooks/useRemoveSubtask";
-import { BiTrash } from "react-icons/bi";
 import useUpdateSubtask from "../../../../hooks/useUpdateSubtask";
-import { useAuthContext } from "../../../../hooks/useAuthContext";
 
 const SubtaskCard = ({ Subtask, project, isDisabled }) => {
   const { state } = useAuthContext();
-  console.log(state, " this is the context");
   const [canChangeStatu, setCanChangeStatus] = useState(false);
 
   useEffect(() => {
     if (Subtask) {
-      console.log(Subtask.AssignedSubtask[0]);
       for (let member of Subtask.AssignedSubtask) {
         if (member.member.member.userId == state.user.userId) {
           setCanChangeStatus(true);

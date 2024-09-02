@@ -13,7 +13,6 @@ const getAllHabits = async (req, res) => {
 
     res.status(200).json(habits);
   } catch (e) {
-    console.log(e);
     res.status(404).json(e);
   }
 };
@@ -30,12 +29,10 @@ const getHabit = async (req, res) => {
     });
 
     if (!habit) {
-      console.log("hey there");
       throw Error("habit not found");
     }
     res.status(200).json(habit);
   } catch (e) {
-    console.log(e);
     res.status(404).json({ error: e.message });
   }
 };
@@ -82,7 +79,6 @@ const createHabit = async (req, res) => {
 
     res.status(200).json(habit);
   } catch (err) {
-    console.log(err);
     res.status(404).json({ error: "error" });
   }
 };
@@ -92,12 +88,7 @@ const updateHabit = async (req, res) => {
   const { habitId } = req.params;
   let { habitName, description, unit, remindMe, quantifiable } = req.body;
 
-  console.log(description);
   try {
-    // if (!habitId) {
-    //   throw Error("no user");
-    // }
-
     const habitExists = await prisma.habit.findFirst({
       where: {
         habitId: habitId,
@@ -121,11 +112,8 @@ const updateHabit = async (req, res) => {
       },
     });
 
-    console.table(habit);
-
     res.status(200).json(habit);
   } catch (err) {
-    console.log(err);
     res.status(404).json({ error: err.message });
   }
 };
@@ -158,8 +146,6 @@ const deleteHabit = async (req, res) => {
 
     res.status(200).json(habit);
   } catch (e) {
-    console.log(e);
-
     res.status(404).json({ error: e.message });
   }
 };
@@ -197,7 +183,6 @@ const addHabitEntry = async (req, res) => {
 
     res.status(200).json(habitEntry);
   } catch (err) {
-    console.log(err);
     res.status(404).json({ error: err.message });
   }
 };
@@ -223,7 +208,6 @@ const getAllHabitEntry = async (req, res) => {
 
     res.status(200).json(habitEntries);
   } catch (err) {
-    console.log(err.message);
     res.status(404).json({ error: err.message });
   }
 };

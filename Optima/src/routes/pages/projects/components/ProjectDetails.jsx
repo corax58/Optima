@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoMdClose } from "react-icons/io";
 import useRemoveMember from "../../../../hooks/useRemoveMember";
 
@@ -27,13 +27,7 @@ export function calculatePercentage(total, value) {
 const ProjectDetails = ({ data, isDisabled }) => {
   const removeMember = useRemoveMember({ projectId: data.projectId });
 
-  // const [completion, setCompletion] = useState("On Going");
-
   let subtasks = data.SubTask;
-  console.log(
-    calculatePercentage(subtasks.length, CalculateProgress(subtasks))
-  );
-  // console.log(subtasks);
 
   return (
     <table className=" table w-max md:w-1/2   ">
@@ -95,7 +89,6 @@ const ProjectDetails = ({ data, isDisabled }) => {
                                 : "")
                             }
                             onClick={() => {
-                              console.log(member);
                               removeMember.mutate(member.projectMemberId);
                             }}
                           >
